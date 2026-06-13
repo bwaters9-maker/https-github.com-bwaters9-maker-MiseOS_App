@@ -626,25 +626,25 @@ export default function RecipeSpecSheetBuilder({ onRecipeSaved, onCancel }: Spec
         </div>
 
         {addedComponents.length > 0 && (
-          <div className="border border-zinc-900 rounded-xl overflow-hidden bg-zinc-950">
+          <div className="border border-zinc-200 rounded-xl overflow-hidden bg-white shadow-xs">
             <table className="w-full border-collapse text-left text-xs font-mono">
-              <thead className="bg-zinc-900/60 text-zinc-400 uppercase tracking-wider text-[10px] border-b border-zinc-900">
+              <thead className="bg-[#0F172A] border-b border-[#1E293B]">
                 <tr>
-                  <th className="p-3">Material Component</th>
-                  <th className="p-3">Quantity</th>
-                  <th className="p-3">Yield Rate</th>
-                  <th className="p-3">Category</th>
-                  <th className="p-3 text-right">Actions</th>
+                  <th className="p-3 text-[10px] text-slate-200 uppercase tracking-widest font-bold">Material Component</th>
+                  <th className="p-3 text-[10px] text-slate-200 uppercase tracking-widest font-bold">Quantity</th>
+                  <th className="p-3 text-[10px] text-slate-200 uppercase tracking-widest font-bold">Yield Rate</th>
+                  <th className="p-3 text-[10px] text-slate-200 uppercase tracking-widest font-bold">Category</th>
+                  <th className="p-3 text-[10px] text-slate-200 uppercase tracking-widest font-bold text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-900 text-zinc-300 font-mono">
+              <tbody className="divide-y divide-zinc-200 text-slate-700 font-mono">
                 {addedComponents.map((item, index) => (
-                  <tr key={index} className="hover:bg-zinc-900/20">
-                    <td className="p-3 font-bold text-zinc-100">{item.name}</td>
-                    <td className="p-3">{item.quantity} {item.unit}</td>
-                    <td className="p-3 text-zinc-500">{(item.yieldPercent)}%</td>
+                  <tr key={index} className="hover:bg-emerald-50/30 transition-colors border-b last:border-0 border-zinc-200">
+                    <td className="p-3 font-bold text-[#0F172A]">{item.name}</td>
+                    <td className="p-3 text-emerald-700 font-extrabold">{item.quantity} {item.unit}</td>
+                    <td className="p-3 text-slate-500">{(item.yieldPercent)}%</td>
                     <td className="p-3">
-                      <span className="text-[10px] border border-zinc-800 bg-zinc-900 px-2 py-0.5 rounded text-zinc-400">
+                      <span className="text-[10px] border border-zinc-200 bg-slate-100 px-2 py-0.5 rounded text-slate-600 font-semibold uppercase">
                         {item.category}
                       </span>
                     </td>
@@ -652,7 +652,8 @@ export default function RecipeSpecSheetBuilder({ onRecipeSaved, onCancel }: Spec
                       <button
                         type="button"
                         onClick={() => setAddedComponents(addedComponents.filter((_, i) => i !== index))}
-                        className="text-zinc-500 hover:text-red-400 transition-colors cursor-pointer"
+                        className="text-slate-400 hover:text-emerald-700 transition-colors cursor-pointer"
+                        title="Remove Component"
                       >
                         <Trash2 className="w-4 h-4 inline" />
                       </button>

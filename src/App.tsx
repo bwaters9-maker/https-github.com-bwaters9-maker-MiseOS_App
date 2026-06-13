@@ -1460,44 +1460,44 @@ export default function App() {
                           </div>
 
                           {/* Deep-Dive Ingredients table detailing AP case weights vs yield % vs EP edible weights */}
-                          <div className="overflow-x-auto">
-                            <table className="w-full text-left text-xs font-mono border-collapse">
-                              <thead>
-                                <tr className="border-b border-zinc-800 text-[9px] text-zinc-500 uppercase tracking-wider">
-                                  <th className="py-2">INGREDIENT</th>
-                                  <th className="py-2 text-right font-bold">EDIBLE QTY (EP)</th>
-                                  <th className="py-2 text-center">YIELD %</th>
-                                  <th className="py-2 text-right">AP RAW REQ</th>
-                                  <th className="py-2 text-right">UNIT AP RATE</th>
-                                  <th className="py-2 text-right">TOTAL COST</th>
+                          <div className="overflow-x-auto border border-[#E6E6E6] rounded-xl shadow-xs bg-white">
+                            <table className="w-full border-collapse text-left text-xs font-mono">
+                              <thead className="bg-[#0F172A] border-b border-[#1E293B]">
+                                <tr>
+                                  <th className="p-3 text-[9.5px] text-slate-200 uppercase tracking-widest font-bold">INGREDIENT</th>
+                                  <th className="p-3 text-[9.5px] text-slate-200 uppercase tracking-widest font-bold text-right">EDIBLE QTY (EP)</th>
+                                  <th className="p-3 text-[9.5px] text-slate-200 uppercase tracking-widest font-bold text-center">YIELD %</th>
+                                  <th className="p-3 text-[9.5px] text-slate-200 uppercase tracking-widest font-bold text-right">AP RAW REQ</th>
+                                  <th className="p-3 text-[9.5px] text-slate-200 uppercase tracking-widest font-bold text-right">UNIT AP RATE</th>
+                                  <th className="p-3 text-[9.5px] text-slate-200 uppercase tracking-widest font-bold text-right">TOTAL COST</th>
                                 </tr>
                               </thead>
-                              <tbody className="divide-y divide-zinc-850/65 text-[11px]">
+                              <tbody className="divide-y divide-zinc-200 text-[11px]">
                                 {costCalculations?.detailedIngredients.map((ing, idx) => {
                                   const isYieldWastage = ing.yieldPercent < 100;
 
                                   return (
-                                    <tr id={`recipe-ingredient-row-${idx}`} key={idx} className="hover:bg-zinc-900/40">
-                                      <td className="py-2.5 font-semibold text-zinc-200">
+                                    <tr id={`recipe-ingredient-row-${idx}`} key={idx} className="hover:bg-emerald-50/30 transition-colors border-b last:border-0 border-zinc-200">
+                                      <td className="p-3 font-semibold text-[#0F172A]">
                                         {ing.name}
                                       </td>
-                                      <td className="py-2.5 text-right font-semibold text-emerald-400">
+                                      <td className="p-3 text-right font-bold text-emerald-700">
                                         {ing.scaledQuantity.toFixed(2)} {ing.unit}
                                       </td>
-                                      <td className="py-2.5 text-center">
-                                        <span className={`px-1 rounded text-[10px] ${
-                                          isYieldWastage ? 'text-amber-500 font-bold bg-amber-955/20' : 'text-zinc-500'
+                                      <td className="p-3 text-center">
+                                        <span className={`px-1.5 py-0.5 rounded text-[10px] ${
+                                          isYieldWastage ? 'text-amber-700 font-bold bg-amber-500/10 border border-amber-600/20' : 'text-slate-500 bg-slate-100'
                                         }`}>
                                           {ing.yieldPercent}%
                                         </span>
                                       </td>
-                                      <td className="py-2.5 text-right text-zinc-300">
+                                      <td className="p-3 text-right text-slate-600">
                                         {ing.rawQtyNeeded.toFixed(2)} {ing.unit}
                                       </td>
-                                      <td className="py-2.5 text-right text-zinc-400">
+                                      <td className="p-3 text-right text-slate-500">
                                         ${ing.costPerUnit.toFixed(2)}/{ing.purchaseUnit}
                                       </td>
-                                      <td className="py-2.5 text-right font-bold text-white">
+                                      <td className="p-3 text-right font-black text-[#0F172A]">
                                         ${ing.cost.toFixed(2)}
                                       </td>
                                     </tr>
@@ -1747,36 +1747,36 @@ export default function App() {
                           </div>
 
                           {/* Sub-recipe Ingredients Table */}
-                          <h4 className="text-[9.5px] font-mono font-bold text-zinc-400 uppercase tracking-widest mt-4 mb-1.5">
+                          <h4 className="text-[9.5px] font-mono font-bold text-zinc-500 uppercase tracking-widest mt-4 mb-1.5">
                             ITEMIZED RAW MATERIAL COMPONENTS
                           </h4>
-                          <div className="overflow-x-auto bg-zinc-950/40 p-1 border border-zinc-900 rounded-lg">
-                            <table className="w-full text-left text-xs font-mono border-collapse">
-                              <thead>
-                                <tr className="border-b border-zinc-800 text-[8px] text-zinc-500 uppercase tracking-wider">
-                                  <th className="py-2.5 pl-2">COMP_NAME</th>
-                                  <th className="py-2.5 text-right font-bold">EDIBLE QTY (EP)</th>
-                                  <th className="py-2.5 text-center">YIELD %</th>
-                                  <th className="py-2.5 text-right font-bold">RAW AP REQUIRED</th>
-                                  <th className="py-2.5 text-right pr-2">COST WEIGHT</th>
+                          <div className="overflow-x-auto border border-[#E6E6E6] rounded-xl shadow-xs bg-white">
+                            <table className="w-full border-collapse text-left text-xs font-mono">
+                              <thead className="bg-[#0F172A] border-b border-[#1E293B]">
+                                <tr>
+                                  <th className="p-3 text-[9px] text-slate-200 uppercase tracking-widest font-bold">COMP_NAME</th>
+                                  <th className="p-3 text-[9px] text-slate-200 uppercase tracking-widest font-bold text-right">EDIBLE QTY (EP)</th>
+                                  <th className="p-3 text-[9px] text-slate-200 uppercase tracking-widest font-bold text-center">YIELD %</th>
+                                  <th className="p-3 text-[9px] text-slate-200 uppercase tracking-widest font-bold text-right">RAW AP REQUIRED</th>
+                                  <th className="p-3 text-[9px] text-slate-200 uppercase tracking-widest font-bold text-right">COST WEIGHT</th>
                                 </tr>
                               </thead>
-                              <tbody className="divide-y divide-zinc-850/60 text-[10.5px]">
+                              <tbody className="divide-y divide-zinc-200 text-[10.5px]">
                                 {subRecipeDetails?.detailedIngredients.map((ing, k) => {
                                   const localRawQty = calculateRawQuantity(ing.quantity * subRecipeScaler, ing.yieldPercent);
                                   return (
-                                    <tr key={k} className="hover:bg-zinc-900/40">
-                                      <td className="py-2 pl-2 text-zinc-200 font-bold">{ing.name}</td>
-                                      <td className="py-2 text-right text-emerald-400 font-bold">{(ing.quantity * subRecipeScaler).toFixed(3)} {ing.unit}</td>
-                                      <td className="py-2 text-center text-zinc-400">{ing.yieldPercent}%</td>
-                                      <td className="py-2 text-right text-zinc-350">{localRawQty.toFixed(3)} {ing.unit}</td>
-                                      <td className="py-2 text-right font-bold text-white pr-2">${(localRawQty * ing.costPerUnit).toFixed(2)}</td>
+                                    <tr key={k} className="hover:bg-emerald-50/30 transition-colors border-b last:border-0 border-zinc-200">
+                                      <td className="p-3 text-[#0F172A] font-bold">{ing.name}</td>
+                                      <td className="p-3 text-right text-emerald-700 font-bold">{(ing.quantity * subRecipeScaler).toFixed(3)} {ing.unit}</td>
+                                      <td className="p-3 text-center text-slate-500">{ing.yieldPercent}%</td>
+                                      <td className="p-3 text-right text-slate-600">{localRawQty.toFixed(3)} {ing.unit}</td>
+                                      <td className="p-3 text-right font-black text-[#0F172A]">${(localRawQty * ing.costPerUnit).toFixed(2)}</td>
                                     </tr>
                                   );
                                 })}
                                 {activeSubRecipe.ingredients.length === 0 && (
                                   <tr>
-                                    <td colSpan={5} className="text-center py-4 text-zinc-500 italic text-[11px]">
+                                    <td colSpan={5} className="text-center py-4 text-slate-500 italic text-[11px]">
                                       No raw materials declared. Establishing simple base item rate.
                                     </td>
                                   </tr>
@@ -1943,23 +1943,23 @@ export default function App() {
                             <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block mb-1">
                               INGREDIENTS
                             </span>
-                            <div className="max-h-36 overflow-y-auto bg-zinc-950/50 p-2 rounded border border-zinc-850">
-                              <table className="w-full text-left text-[11px] font-mono">
-                                <thead>
-                                  <tr className="border-b border-zinc-800 text-[8px] text-zinc-500 uppercase font-bold">
-                                    <th className="pb-1">Name</th>
-                                    <th className="pb-1 text-right">Qty</th>
-                                    <th className="pb-1 text-center">Trim Yield</th>
-                                    <th className="pb-1 text-right">Cost</th>
+                            <div className="max-h-36 overflow-y-auto border border-[#E6E6E6] rounded-xl shadow-xs bg-white">
+                              <table className="w-full text-left text-[11px] font-mono border-collapse">
+                                <thead className="bg-[#0F172A] sticky top-0 border-b border-[#1E293B]">
+                                  <tr>
+                                    <th className="p-2 text-[8px] text-slate-200 uppercase font-bold pl-3">Name</th>
+                                    <th className="p-2 text-[8px] text-slate-200 uppercase font-bold text-right">Qty</th>
+                                    <th className="p-2 text-[8px] text-slate-200 uppercase font-bold text-center">Trim Yield</th>
+                                    <th className="p-2 text-[8px] text-slate-200 uppercase font-bold text-right pr-3">Cost</th>
                                   </tr>
                                 </thead>
-                                <tbody>
+                                <tbody className="divide-y divide-zinc-200 font-mono">
                                   {parsedRecipeResult.ingredients.map((ing, i) => (
-                                    <tr key={i} className="border-b border-zinc-900 last:border-0">
-                                      <td className="py-1 text-zinc-200 truncate max-w-[120px]">{ing.name}</td>
-                                      <td className="py-1 text-right text-emerald-400 font-extrabold">{ing.quantity} {ing.unit}</td>
-                                      <td className="py-1 text-center text-zinc-400">{ing.yieldPercent}%</td>
-                                      <td className="py-1 text-right text-zinc-300">${ing.costPerUnit.toFixed(2)}</td>
+                                    <tr key={i} className="hover:bg-emerald-50/30 transition-colors border-b last:border-0 border-zinc-200">
+                                      <td className="p-2 pl-3 text-[#0F172A] font-bold truncate max-w-[120px]">{ing.name}</td>
+                                      <td className="p-2 text-right text-emerald-700 font-extrabold">{ing.quantity} {ing.unit}</td>
+                                      <td className="p-2 text-center text-slate-500">{ing.yieldPercent}%</td>
+                                      <td className="p-2 text-right text-[#0F172A] font-medium pr-3">${ing.costPerUnit.toFixed(2)}</td>
                                     </tr>
                                   ))}
                                 </tbody>
