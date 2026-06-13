@@ -29,6 +29,17 @@
 @theme {
   --font-sans: var(--font-primary);
   
+  /* Pure White-Label Utility Design Tokens */
+  --color-brand-bg: var(--color-bg);
+  --color-brand-surface: var(--color-surface);
+  --color-brand-border: var(--color-line);
+  --color-brand-text: var(--color-text);
+  --color-brand-accent: var(--color-accent);
+  --color-brand-focus: var(--color-focus);
+  --color-brand-muted: #888888;
+  --color-brand-faded: #CCCCCC;
+  
+  /* Fallbacks & Overrides for Backward Compatibility and Remapped Classes */
   --color-zinc-950: var(--color-bg);          /* bg-zinc-950 maps to porcelain */
   --color-zinc-900: var(--color-surface);     /* bg-zinc-900 maps to plate */
   --color-zinc-905: var(--color-surface);
