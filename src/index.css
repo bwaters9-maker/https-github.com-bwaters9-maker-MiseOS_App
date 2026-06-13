@@ -3,12 +3,67 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
-@layer base {
-  body {
-    @apply bg-zinc-950 text-zinc-100 antialiased selection:bg-red-600 selection:text-white;
-  }
+:root {
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --text-title: 28px;
+  --text-section: 20px;
+  --text-body: 16px;
+  --text-small: 14px;
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+
+  --color-bg: #FAFAFA;          /* porcelain */
+  --color-surface: #FFFFFF;     /* plate */
+  --color-line: #E6E6E6;        /* stainless */
+  --color-text: #1C1C1C;        /* charcoal */
+  --color-accent: #C47E5A;      /* muted copper */
+  --color-focus: #0F1A2A;       /* deep navy */
+}
+
+@theme {
+  --font-sans: var(--font-primary);
+  
+  --color-zinc-950: var(--color-bg);          /* bg-zinc-950 maps to porcelain */
+  --color-zinc-900: var(--color-surface);     /* bg-zinc-900 maps to plate */
+  --color-zinc-905: var(--color-surface);
+  --color-zinc-955: var(--color-bg);
+  --color-zinc-850: var(--color-line);        /* border-zinc-850 maps to stainless */
+  --color-zinc-805: var(--color-line);
+  --color-zinc-800: var(--color-line);        /* border-zinc-800 maps to stainless */
+  --color-zinc-750: var(--color-line);
+  --color-zinc-700: #CCCCCC;
+  --color-zinc-600: #888888;
+  --color-zinc-500: #666666;
+  --color-zinc-400: #444444;                  /* muted charcoal */
+  --color-zinc-350: #222222;
+  --color-zinc-300: var(--color-text);        /* text-zinc-300 maps to charcoal */
+  --color-zinc-200: var(--color-text);
+  --color-zinc-100: var(--color-text);        /* text-zinc-100 maps to charcoal */
+  
+  --color-emerald-600: var(--color-accent);    /* accents map to copper */
+  --color-emerald-500: #D8926D;
+  --color-emerald-700: #B06C47;
+  
+  --color-red-650: var(--color-accent);
+  --color-red-600: var(--color-accent);
+  --color-red-500: #D8926D;
+  --color-red-700: #B06C47;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: var(--color-bg);
+  color: var(--color-text);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Custom fade-in and utility styles */

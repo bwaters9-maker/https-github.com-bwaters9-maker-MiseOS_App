@@ -54,6 +54,7 @@ import {
   VolumeX,
   X
 } from 'lucide-react';
+import RecipeSpecSheetBuilder from './RecipeSpecSheet';
 
 export default function App() {
   // --- STATE ---
@@ -144,6 +145,13 @@ export default function App() {
   const [builderPrice, setBuilderPrice] = useState<string>('15.00');
   const [builderIngredients, setBuilderIngredients] = useState<Ingredient[]>([]);
   const [builderSteps, setBuilderSteps] = useState<string[]>([]);
+  const [builderTimeMinutes, setBuilderTimeMinutes] = useState<string>('30');
+  const [builderStatus, setBuilderStatus] = useState<'Draft' | 'Active' | 'Archived'>('Active');
+  const [builderMenuSection, setBuilderMenuSection] = useState<'Apps' | 'Mains' | 'Desserts' | 'Sides'>('Mains');
+  const [builderTargetFoodCostPercentage, setBuilderTargetFoodCostPercentage] = useState<string>('28');
+  const [builderTags, setBuilderTags] = useState<string[]>([]);
+  const [builderTagInput, setBuilderTagInput] = useState<string>('');
+  const [builderAllergens, setBuilderAllergens] = useState<string[]>([]);
 
   const [builderIngName, setBuilderIngName] = useState('');
   const [builderIngQty, setBuilderIngQty] = useState('');
@@ -152,6 +160,7 @@ export default function App() {
   const [builderIngYield, setBuilderIngYield] = useState<string>('100');
   const [builderIngPurchaseUnit, setBuilderIngPurchaseUnit] = useState('kg');
   const [builderStepText, setBuilderStepText] = useState('');
+  const [builderError, setBuilderError] = useState('');
 
   // AI Unstructured Parser State
   const [rawRecipeText, setRawRecipeText] = useState(
@@ -189,6 +198,40 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('miseos_subrecipes', JSON.stringify(subRecipes));
   }, [subRecipes]);
+
+  // Auto-scan allergens on ingredient modification
+  useEffect(() => {
+    const commonAllergensMap = {
+      gluten: ["flour", "wheat", "bread", "panko", "gluten", "pasta", "semolina", "crust", "soy sauce", "soy-sauce", "tortilla"],
+      dairy: ["butter", "milk", "cream", "cheese", "parmesan", "yogurt", "whey", "mascarpone", "ghee"],
+      shellfish: ["shrimp", "lobster", "crab", "prawn", "oyster", "clam", "scallop", "mussel"],
+      nuts: ["almond", "walnut", "peanut", "cashew", "pecan", "hazelnut", "pistachio"],
+      soy: ["soy", "tofu", "shoyu", "tamari", "edamame"],
+      egg: ["egg", "yolk", "mayo", "bacon" , "meringue", "aioli", "custard"],
+      fish: ["salmon", "cod", "tuna", "halibut", "snapper", "anchovy", "bass", "fish", "trout"],
+      sesame: ["sesame", "tahini"]
+    };
+
+    const identified: string[] = [];
+    builderIngredients.forEach((ing) => {
+      const nameLower = ing.name.toLowerCase();
+      Object.entries(commonAllergensMap).forEach(([allergen, keywords]) => {
+        if (keywords.some(k => nameLower.includes(k))) {
+          const capitalized = allergen.charAt(0).toUpperCase() + allergen.slice(1);
+          if (!identified.includes(capitalized)) {
+            identified.push(capitalized);
+          }
+        }
+      });
+    });
+
+    if (identified.length > 0) {
+      setBuilderAllergens(prev => {
+        const union = new Set([...prev, ...identified]);
+        return Array.from(union);
+      });
+    }
+  }, [builderIngredients]);
 
   // --- AUDIO ALARM EFFECT ---
   const playAlertSound = () => {
@@ -467,7 +510,7 @@ export default function App() {
   // --- FIND RELEVANT RECIPE AND COST DETAILS ---
   const activeRecipe = recipes.find((r) => r.id === selectedRecipeId) || recipes[0];
   const costCalculations = activeRecipe
-    ? calculateRecipeCostDetails(activeRecipe, activeRecipe.targetCovers)
+    ? calculateRecipeCostDetails(activeRecipe, activeRecipe.targetCovers, subRecipes)
     : null;
 
   // --- SUBRECIPE COST DETAILS HELPER & DERIVED STATES ---
@@ -1038,7 +1081,7 @@ export default function App() {
                         </div>
                         <div className="flex flex-col gap-1.5 max-h-[355px] overflow-y-auto">
                           {filteredRecipesList.map((r) => {
-                            const details = calculateRecipeCostDetails(r, r.originalCovers);
+                            const details = calculateRecipeCostDetails(r, r.originalCovers, subRecipes);
                             const isExcessiveCost = details.foodCostPercentage > 30;
 
                             return (
@@ -1083,21 +1126,52 @@ export default function App() {
                       {/* Primary Recipe Detail, Scaling Panel, & EP vs AP Calculations */}
                       <div className="md:col-span-8 flex flex-col gap-4">
                         <div className="bg-zinc-900/60 border border-zinc-900 rounded-xl p-4 shadow-md">
-                          
-                          {/* Header Details */}
+                                         {/* Header Details */}
                           <div className="flex flex-col sm:flex-row justify-between items-start gap-3 border-b border-zinc-800/80 pb-3 mb-4">
                             <div>
-                              <div className="flex items-center gap-2">
+                              <div className="flex flex-wrap items-center gap-1.5">
                                 <span className="bg-zinc-850 px-2 py-0.5 border border-zinc-800 rounded text-[9px] font-mono text-zinc-400 uppercase">
                                   {activeRecipe.station} STATION
                                 </span>
                                 <span className="text-[9px] font-mono text-zinc-500">
                                   ID: {activeRecipe.id}
                                 </span>
+                                
+                                {/* Status Badge */}
+                                <span className={`px-2 py-0.5 border rounded text-[9px] font-mono uppercase font-extrabold ${
+                                  activeRecipe.status === 'Draft'
+                                    ? 'bg-amber-950/25 border-amber-800/60 text-amber-500'
+                                    : activeRecipe.status === 'Archived'
+                                    ? 'bg-zinc-900 border-zinc-800 text-zinc-500'
+                                    : 'bg-emerald-950/25 border-emerald-805 text-emerald-500'
+                                }`}>
+                                  {activeRecipe.status || 'Active'}
+                                </span>
+
+                                {/* Menu Section Badge */}
+                                <span className="bg-red-950/20 border border-red-900/35 px-2 py-0.5 rounded text-[9px] font-mono text-red-400 uppercase font-extrabold">
+                                  🍽️ {activeRecipe.menuSection || 'Mains'}
+                                </span>
+                                
+                                {/* Prep Time Badge */}
+                                <span className="bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded text-[9px] font-mono text-zinc-400 flex items-center gap-1">
+                                  <Clock className="w-2.5 h-2.5 text-zinc-500" /> {activeRecipe.timeMinutes || 30} MIN PREP
+                                </span>
                               </div>
                               <h3 className="text-base font-mono font-bold uppercase tracking-tight text-white mt-1">
                                 {activeRecipe.name}
                               </h3>
+                              
+                              {/* Tags lists */}
+                              {activeRecipe.tags && activeRecipe.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mt-1.5">
+                                  {activeRecipe.tags.map((t, idx) => (
+                                    <span key={idx} className="text-[8.5px] font-mono bg-zinc-950 border border-zinc-850 text-zinc-400 px-1.5 py-0.2 rounded">
+                                      #{t}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
                             </div>
 
                             {/* Dynamic Covers Scaling Buttons */}
@@ -1201,6 +1275,71 @@ export default function App() {
                                   }}
                                   className="bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-white rounded px-1 py-0.2 w-14 focus:outline-none"
                                 />
+                              </div>
+                            </div>
+
+                          </div>
+
+                          {/* Financial Margin & Safety Compliance Center */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+                            
+                            {/* Target Costing Variance Panel */}
+                            <div className="bg-zinc-950 border border-zinc-850 rounded-xl p-3.5 flex flex-col justify-between shadow-inner">
+                              <div className="flex justify-between items-center text-[9px] font-mono text-zinc-500 uppercase tracking-widest font-extrabold pb-2 border-b border-zinc-900">
+                                <span>FINANCIAL MARGIN CALIBRATOR</span>
+                                <span className={`text-[8.5px] font-extrabold px-1.5 py-0.2 rounded border ${
+                                  costCalculations && costCalculations.foodCostPercentage <= (activeRecipe.targetFoodCostPercentage || 28)
+                                    ? 'bg-emerald-950/40 text-emerald-400 border-emerald-905/30'
+                                    : 'bg-red-955/40 text-red-500 border-red-900/30'
+                                }`}>
+                                  {costCalculations && costCalculations.foodCostPercentage <= (activeRecipe.targetFoodCostPercentage || 28) ? 'PROFITABLE' : 'RISK! SLOW MARGIN'}
+                                </span>
+                              </div>
+                              <div className="flex justify-between items-center mt-3 font-mono">
+                                <div className="flex flex-col">
+                                  <span className="text-[10px] text-zinc-500 uppercase">Target Cost Ceiling</span>
+                                  <span className="text-sm font-bold text-amber-500">{(activeRecipe.targetFoodCostPercentage || 28)}%</span>
+                                </div>
+                                <div className="text-right flex flex-col">
+                                  <span className="text-[10px] text-zinc-500 uppercase">Active Variance</span>
+                                  <span className={`text-sm font-extrabold ${
+                                    costCalculations && costCalculations.foodCostPercentage <= (activeRecipe.targetFoodCostPercentage || 28) ? 'text-emerald-400' : 'text-red-400'
+                                  }`}>
+                                    {(costCalculations ? (costCalculations.foodCostPercentage - (activeRecipe.targetFoodCostPercentage || 28)).toFixed(1) : '0.0')}%
+                                  </span>
+                                </div>
+                              </div>
+                              {/* Graphic relative cost ratio bar */}
+                              <div className="w-full bg-zinc-900 h-1.5 rounded-full overflow-hidden mt-3 border border-zinc-800">
+                                <div 
+                                  className={`h-full rounded-full transition-all duration-300 ${
+                                    costCalculations && costCalculations.foodCostPercentage <= (activeRecipe.targetFoodCostPercentage || 28)
+                                      ? 'bg-emerald-500'
+                                      : 'bg-red-500'
+                                  }`}
+                                  style={{ width: `${Math.min(100, costCalculations ? (costCalculations.foodCostPercentage / (activeRecipe.targetFoodCostPercentage || 28)) * 100 : 50)}%` }}
+                                />
+                              </div>
+                            </div>
+
+                            {/* Allergens compliance warning */}
+                            <div className="bg-zinc-950 border border-zinc-850 rounded-xl p-3.5 flex flex-col justify-between shadow-inner">
+                              <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest font-extrabold pb-2 border-b border-zinc-900 flex justify-between">
+                                <span>DIETARY SAFETY ALERTS</span>
+                                <span className="text-[8.5px] text-zinc-500 font-bold uppercase">Compliance Catalog</span>
+                              </div>
+                              <div className="flex flex-wrap gap-1.5 mt-3">
+                                {activeRecipe.allergens && activeRecipe.allergens.length > 0 ? (
+                                  activeRecipe.allergens.map((alg, idx) => (
+                                    <span key={idx} className="text-[9.2px] font-mono bg-red-955/20 border border-red-900/60 text-red-400 px-2 py-0.5 rounded-md font-extrabold uppercase tracking-wider animate-pulse">
+                                      ⚠️ {alg}
+                                    </span>
+                                  ))
+                                ) : (
+                                  <span className="text-[9.5px] font-mono text-emerald-400 bg-emerald-955/10 border border-emerald-900/40 px-3 py-1.5 rounded-md flex items-center gap-1.5 w-full font-bold uppercase">
+                                    ✓ Allergen-Safe / Uncompromised
+                                  </span>
+                                )}
                               </div>
                             </div>
 
@@ -1568,340 +1707,48 @@ export default function App() {
                         </div>
                       )}
                     </div>
-
                   </div>
                 )}
 
-                {/* SUB TAB 3: MASTER RECIPE BUILDER WORKSPACE */}
-                {recipeSubTab === 'builder' && (
-                  <div id="recipe-builder-tab-content" className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-                    
-                    {/* Left side form - parameters and steps */}
-                    <div className="lg:col-span-6 bg-zinc-900/60 border border-zinc-900 rounded-xl p-4 flex flex-col gap-4 shadow-md">
-                      <div>
-                        <h4 className="text-xs font-mono font-extrabold text-red-500 uppercase tracking-widest flex items-center gap-1.5">
-                          <PlusCircle className="w-4 h-4 text-red-500" /> Catalog Recipe Form
-                        </h4>
-                        <p className="text-[10px] font-mono text-zinc-400 uppercase mt-0.5">
-                          Compile plated menus with yield multipliers
-                        </p>
-                      </div>
-
-                      {/* Name input */}
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider font-extrabold">Recipe Plate Title</label>
-                        <input
-                          type="text"
-                          placeholder="e.g. Lavender Glazed Salmon"
-                          value={builderName}
-                          onChange={(e) => setBuilderName(e.target.value)}
-                          className="w-full bg-zinc-950 border border-zinc-850 rounded-lg p-2.5 text-xs font-mono text-white focus:outline-none focus:border-red-500"
-                        />
-                      </div>
-
-                      {/* General config fields */}
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div className="flex flex-col gap-1">
-                          <label className="text-[9px] font-mono text-zinc-500 uppercase font-extrabold">Station Location</label>
-                          <select
-                            value={builderStation}
-                            onChange={(e) => setBuilderStation(e.target.value as PrepStation)}
-                            className="bg-zinc-950 border border-zinc-850 p-2 rounded-lg text-xs font-mono text-zinc-200 focus:outline-none focus:border-red-500"
-                          >
-                            <option value="Sauté">Sauté</option>
-                            <option value="Grill">Grill</option>
-                            <option value="Garde Manger">Garde Manger</option>
-                            <option value="Pastry">Pastry</option>
-                          </select>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                          <label className="text-[9px] font-mono text-zinc-500 uppercase font-extrabold">Base Covers Yield</label>
-                          <input
-                            type="number"
-                            min="1"
-                            max="500"
-                            value={builderOriginalCovers}
-                            onChange={(e) => setBuilderOriginalCovers(e.target.value)}
-                            className="bg-zinc-950 border border-zinc-850 p-2 rounded-lg text-xs font-mono text-white text-center focus:outline-none focus:border-red-500"
-                          />
-                        </div>
-                        <div className="flex flex-col gap-1">
-                          <label className="text-[9px] font-mono text-zinc-500 uppercase font-extrabold">Menu Portions Price</label>
-                          <div className="relative">
-                            <span className="absolute left-2.5 top-2.5 text-xs font-mono text-zinc-500">$</span>
-                            <input
-                              type="text"
-                              value={builderPrice}
-                              onChange={(e) => setBuilderPrice(e.target.value)}
-                              className="bg-zinc-950 border border-zinc-850 w-full pl-6 pr-2 py-2 rounded-lg text-xs font-mono text-white focus:outline-none focus:border-red-500"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* INSTRUCTIONS STEP CHIPS */}
-                      <div className="flex flex-col gap-2 border-t border-zinc-850 pt-3 mt-1">
-                        <label className="text-[9px] font-mono text-zinc-500 uppercase font-extrabold">Preparation Flow Instructions</label>
-                        <div className="flex gap-2">
-                          <input
-                            type="text"
-                            placeholder="Add brief line step instruction rule..."
-                            value={builderStepText}
-                            onChange={(e) => setBuilderStepText(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter') {
-                                e.preventDefault();
-                                if (builderStepText.trim()) {
-                                  setBuilderSteps(prev => [...prev, builderStepText.trim()]);
-                                  setBuilderStepText('');
-                                }
-                              }
-                            }}
-                            className="flex-grow bg-zinc-950 border border-zinc-850 p-2.5 rounded-lg text-xs font-mono text-white focus:outline-none focus:border-red-500"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (builderStepText.trim()) {
-                                setBuilderSteps(prev => [...prev, builderStepText.trim()]);
-                                setBuilderStepText('');
-                              }
-                            }}
-                            className="bg-zinc-850 hover:bg-zinc-800 text-zinc-300 font-mono text-xs px-3 rounded-lg border border-zinc-750 cursor-pointer"
-                          >
-                            + ADD
-                          </button>
-                        </div>
-
-                        {/* Instruction Flow preview list */}
-                        <div className="max-h-36 overflow-y-auto bg-zinc-950/70 p-2.5 border border-zinc-900 rounded-lg flex flex-col gap-1.5">
-                          {builderSteps.map((st, idx) => (
-                            <div key={idx} className="flex justify-between items-start text-xs font-mono text-zinc-300 bg-zinc-900/40 p-1.5 rounded border border-zinc-850/60">
-                              <span className="leading-snug">
-                                <span className="text-red-500 font-bold pr-1">{idx + 1}.</span> {st}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() => setBuilderSteps(prev => prev.filter((_, i) => i !== idx))}
-                                className="text-zinc-500 hover:text-red-500 font-extrabold px-1 cursor-pointer"
-                              >
-                                ×
-                              </button>
-                            </div>
-                          ))}
-                          {builderSteps.length === 0 && (
-                            <span className="text-center py-4 text-zinc-500 italic text-[11px]">
-                              Zero steps listed. Add instructions above.
-                            </span>
-                          )}
-                        </div>
-                      </div>
+                  {/* SUB TAB 3: MASTER RECIPE BUILDER WORKSPACE */}
+                  {recipeSubTab === 'builder' && (
+                    <div id="recipe-builder-tab-content">
+                      <RecipeSpecSheetBuilder
+                        onRecipeSaved={(newRecData) => {
+                          const newRec: Recipe = {
+                            id: `r-custom-${Date.now()}`,
+                            name: newRecData.name,
+                            originalCovers: newRecData.originalCovers,
+                            targetCovers: newRecData.originalCovers,
+                            station: newRecData.station as PrepStation,
+                            ingredients: newRecData.ingredients.map(ing => ({
+                              name: ing.name,
+                              quantity: ing.quantity,
+                              unit: ing.unit,
+                              costPerUnit: ing.costPerUnit,
+                              purchaseUnit: ing.purchaseUnit,
+                              yieldPercent: ing.yieldPercent
+                            })),
+                            steps: newRecData.steps,
+                            salePrice: newRecData.salePrice,
+                            timeMinutes: newRecData.timeMinutes,
+                            status: newRecData.status,
+                            menuSection: newRecData.menuSection,
+                            targetFoodCostPercentage: newRecData.targetFoodCostPercentage,
+                            tags: newRecData.tags,
+                            allergens: newRecData.allergens
+                          };
+                          setRecipes(prev => [...prev, newRec]);
+                          setSelectedRecipeId(newRec.id);
+                          setCustomSalePrice(newRecData.salePrice);
+                          setRecipeSubTab('costing');
+                        }}
+                        onCancel={() => {
+                          setRecipeSubTab('costing');
+                        }}
+                      />
                     </div>
-
-                    {/* Right side form - ingredients compilation worksheet */}
-                    <div className="lg:col-span-6 flex flex-col gap-4">
-                      
-                      {/* Ingredient drafting console */}
-                      <div className="bg-zinc-900/60 border border-zinc-900 rounded-xl p-4 shadow-md flex flex-col gap-3.5">
-                        
-                        <div>
-                          <h4 className="text-xs font-mono font-bold text-zinc-300 uppercase tracking-widest block border-b border-zinc-800 pb-2 mb-2">
-                            INGREDIENT CALCULATOR WORKSHEET
-                          </h4>
-                        </div>
-
-                        {/* Interactive fields to draft an ingredient */}
-                        <div className="grid grid-cols-2 gap-2.5 bg-zinc-950/40 p-3 border border-zinc-900 rounded-xl">
-                          <div className="col-span-2 flex flex-col gap-1">
-                            <label className="text-[8.5px] font-mono text-zinc-500 uppercase tracking-widest font-extrabold">Material Ingredient Name</label>
-                            <input
-                              type="text"
-                              placeholder="e.g. Grass-fed bone marrow"
-                              value={builderIngName}
-                              onChange={(e) => setBuilderIngName(e.target.value)}
-                              className="bg-zinc-950 border border-zinc-850 text-xs px-2.5 py-1.5 rounded-lg font-mono text-white focus:outline-none focus:border-red-500"
-                            />
-                          </div>
-
-                          <div className="flex flex-col gap-1">
-                            <label className="text-[8.5px] font-mono text-zinc-500 uppercase font-extrabold">Edible Portion (EP)</label>
-                            <div className="flex gap-1">
-                              <input
-                                type="text"
-                                placeholder="e.g. 0.45"
-                                value={builderIngQty}
-                                onChange={(e) => setBuilderIngQty(e.target.value)}
-                                className="bg-zinc-950 border border-zinc-850 text-xs w-full px-2 py-1.5 rounded-lg font-mono text-white focus:outline-none focus:border-red-500"
-                              />
-                              <input
-                                type="text"
-                                placeholder="kg"
-                                value={builderIngUnit}
-                                onChange={(e) => setBuilderIngUnit(e.target.value)}
-                                className="bg-zinc-950 border border-zinc-850 text-xs w-16 px-1 rounded-lg font-mono text-zinc-300 text-center focus:outline-none focus:border-red-500"
-                              />
-                            </div>
-                          </div>
-
-                          <div className="flex flex-col gap-1">
-                            <label className="text-[8.5px] font-mono text-zinc-400 uppercase font-extrabold">Trim Recovery Yield %</label>
-                            <input
-                              type="number"
-                              min="10"
-                              max="100"
-                              value={builderIngYield}
-                              onChange={(e) => setBuilderIngYield(e.target.value)}
-                              className="bg-zinc-950 border border-zinc-855 text-xs text-center py-1.5 rounded-lg font-mono text-amber-500 font-bold focus:outline-none focus:border-red-500"
-                            />
-                          </div>
-
-                          <div className="flex flex-col gap-1">
-                            <label className="text-[8.5px] font-mono text-zinc-500 uppercase font-extrabold">Wholesale Purchase Price</label>
-                            <div className="relative">
-                              <span className="absolute left-2.5 top-2.5 text-xs font-mono text-zinc-500">$</span>
-                              <input
-                                type="text"
-                                placeholder="18.50"
-                                value={builderIngCost}
-                                onChange={(e) => setBuilderIngCost(e.target.value)}
-                                className="bg-zinc-950 border border-zinc-850 text-xs pl-6 pr-2 py-1.5 rounded-lg font-mono text-white focus:outline-none focus:border-red-500"
-                              />
-                            </div>
-                          </div>
-
-                          <div className="flex flex-col gap-1">
-                            <label className="text-[8.5px] font-mono text-zinc-500 uppercase font-extrabold">AP Purchase Unit</label>
-                            <input
-                              type="text"
-                              value={builderIngPurchaseUnit}
-                              onChange={(e) => setBuilderIngPurchaseUnit(e.target.value)}
-                              className="bg-zinc-950 border border-zinc-850 text-xs text-center py-1.5 rounded-lg font-mono text-zinc-300 focus:outline-none focus:border-red-500"
-                            />
-                          </div>
-
-                          <div className="col-span-2 pt-1 flex justify-end">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                if (!builderIngName.trim() || !builderIngQty.trim() || !builderIngCost.trim()) return;
-                                const newIng: Ingredient = {
-                                  name: builderIngName.trim(),
-                                  quantity: parseFloat(builderIngQty) || 0,
-                                  unit: builderIngUnit,
-                                  costPerUnit: parseFloat(builderIngCost) || 0,
-                                  purchaseUnit: builderIngPurchaseUnit,
-                                  yieldPercent: parseInt(builderIngYield) || 100
-                                };
-                                setBuilderIngredients(prev => [...prev, newIng]);
-                                setBuilderIngName('');
-                                setBuilderIngQty('');
-                                setBuilderIngCost('');
-                              }}
-                              className="bg-red-600 hover:bg-red-700 text-white font-mono text-[10px] font-extrabold uppercase px-4 py-1.8 rounded border border-red-500 transition-all cursor-pointer"
-                            >
-                              + Buffer Material Into Worksheet
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* List of currently drafted worksheet items */}
-                        <div className="border border-zinc-900 rounded-lg p-2 bg-zinc-950/40">
-                          <span className="text-[9.5px] font-mono text-zinc-400 uppercase tracking-widest block mb-2 px-1">
-                            WORKSHEET COMPONENTS ({builderIngredients.length})
-                          </span>
-                          <div className="max-h-36 overflow-y-auto">
-                            <table className="w-full text-left text-[11px] font-mono">
-                              <thead>
-                                <tr className="border-b border-zinc-800 text-[8px] text-zinc-500 uppercase font-bold">
-                                  <th className="pb-1 pl-1">NAME</th>
-                                  <th className="pb-1 text-right">EP NEEDED</th>
-                                  <th className="pb-1 text-center">YIELD %</th>
-                                  <th className="pb-1 text-right">RAW AP REQUIRED</th>
-                                  <th className="pb-1 text-right pr-1">EST COST</th>
-                                  <th className="pb-1"></th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {builderIngredients.map((ing, idx) => {
-                                  const rawReq = calculateRawQuantity(ing.quantity, ing.yieldPercent);
-                                  const isYieldWastage = ing.yieldPercent < 100;
-                                  return (
-                                    <tr key={idx} className="border-b border-zinc-900 hover:bg-zinc-900/20">
-                                      <td className="py-1 text-zinc-300 truncate max-w-[120px] pl-1">{ing.name}</td>
-                                      <td className="py-1 text-right text-emerald-400 font-bold">{ing.quantity} {ing.unit}</td>
-                                      <td className="py-1 text-center">
-                                        <span className={`px-1 rounded text-[10px] ${
-                                          isYieldWastage ? 'text-amber-500 font-bold bg-amber-955/20' : 'text-zinc-500'
-                                        }`}>
-                                          {ing.yieldPercent}%
-                                        </span>
-                                      </td>
-                                      <td className="py-1 text-right text-zinc-400">{rawReq.toFixed(2)} {ing.unit}</td>
-                                      <td className="py-1 text-right text-white font-extrabold pr-1">${(rawReq * ing.costPerUnit).toFixed(2)}</td>
-                                      <td className="py-1 text-right pr-1 text-zinc-500 hover:text-red-500">
-                                        <button
-                                          type="button"
-                                          onClick={() => setBuilderIngredients(prev => prev.filter((_, i) => i !== idx))}
-                                          className="cursor-pointer font-bold px-1"
-                                        >
-                                          ×
-                                        </button>
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
-                                {builderIngredients.length === 0 && (
-                                  <tr>
-                                    <td colSpan={6} className="text-center py-6 text-zinc-605 italic">
-                                      Worksheet empty. Draft materials to tally ratio.
-                                    </td>
-                                  </tr>
-                                )}
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-
-                        {/* Complete Draft button */}
-                        <div className="pt-3 border-t border-zinc-850 flex justify-end">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (!builderName.trim()) {
-                                alert("Please enter a Recipe Plate Title first");
-                                return;
-                              }
-                              const covers = parseInt(builderOriginalCovers) || 4;
-                              const price = parseFloat(builderPrice) || 15.0;
-                              const newRec: Recipe = {
-                                id: `r-custom-${Date.now()}`,
-                                name: builderName.trim(),
-                                originalCovers: covers,
-                                targetCovers: covers,
-                                station: builderStation,
-                                ingredients: builderIngredients,
-                                steps: builderSteps,
-                                salePrice: price
-                              };
-                              setRecipes(prev => [...prev, newRec]);
-                              setSelectedRecipeId(newRec.id);
-                              setCustomSalePrice(price);
-                              setBuilderName('');
-                              setBuilderIngredients([]);
-                              setBuilderSteps([]);
-                              setRecipeSubTab('costing');
-                            }}
-                            className="bg-red-600 hover:bg-red-700 text-white font-mono text-xs font-bold uppercase px-6 py-2.5 rounded-lg border border-red-500 transition-all cursor-pointer flex items-center gap-1.5 shadow-md justify-center w-full sm:w-auto"
-                          >
-                            <Check className="w-4 h-4" /> Build & Commit Plate To Catalog
-                          </button>
-                        </div>
-
-                      </div>
-                    </div>
-
-                  </div>
-                )}
+                  )}
 
               </div>
             )}

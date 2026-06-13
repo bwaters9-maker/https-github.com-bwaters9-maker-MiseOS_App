@@ -126,7 +126,13 @@ export const INITIAL_RECIPES: Recipe[] = [
       'Incorporate shallots, olive oil, salt, and chives right before plattering.',
       'Ring mold presentation with micro-greens.'
     ],
-    salePrice: 24.00
+    salePrice: 24.00,
+    status: 'Active',
+    menuSection: 'Apps',
+    timeMinutes: 15,
+    targetFoodCostPercentage: 25,
+    tags: ['Signature', 'Cold', 'Raw Bar'],
+    allergens: ['Fish']
   },
   {
     id: 'r-2',
@@ -158,7 +164,13 @@ export const INITIAL_RECIPES: Recipe[] = [
       'Rest for 8 minutes before slicing.',
       'Top with compound herb butter coin and serve on warmed dinner plate.'
     ],
-    salePrice: 45.00
+    salePrice: 45.00,
+    status: 'Active',
+    menuSection: 'Mains',
+    timeMinutes: 25,
+    targetFoodCostPercentage: 28,
+    tags: ['Signature', 'Steakhouse', 'Charcoal'],
+    allergens: ['Dairy']
   }
 ];
 

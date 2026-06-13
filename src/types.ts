@@ -44,6 +44,12 @@ export interface Recipe {
   ingredients: Ingredient[];
   steps: string[];
   salePrice?: number;
+  status?: 'Draft' | 'Active' | 'Archived';
+  menuSection?: 'Apps' | 'Mains' | 'Desserts' | 'Sides';
+  allergens?: string[];
+  tags?: string[];
+  timeMinutes?: number;
+  targetFoodCostPercentage?: number;
 }
 
 export interface HandoverLog {
