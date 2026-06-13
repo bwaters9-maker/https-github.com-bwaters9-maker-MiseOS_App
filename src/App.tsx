@@ -591,101 +591,101 @@ export default function App() {
         <section id="miseos-unified-sidebar-nav" className="col-span-1 lg:col-span-3 flex flex-col gap-5">
           
           {/* WHITE LABEL IDENTITY CARD */}
-          <div className="bg-brand-surface border border-brand-border rounded-xl p-4 shadow-md flex flex-col gap-3">
+          <div className="bg-white border border-[#E6E6E6] rounded-xl p-4 shadow-sm flex flex-col gap-3">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-brand-accent flex items-center justify-center shadow border border-brand-accent">
-                <Settings className="w-5 h-5 text-white animate-spin-pulse" />
+              <div className="w-10 h-10 rounded-lg bg-[#0F172A] flex items-center justify-center shadow-lg border border-[#1E293B]">
+                <Settings className="w-5 h-5 text-emerald-400 animate-spin-pulse" />
               </div>
               <div>
-                <h3 className="text-sm font-mono font-black tracking-tight text-brand-text uppercase truncate max-w-[150px]">
+                <h3 className="text-sm font-mono font-black tracking-tight text-[#0F172A] uppercase truncate max-w-[150px]">
                   {brandName}
                 </h3>
-                <p className="text-[10px] text-brand-muted font-mono tracking-tight uppercase">
+                <p className="text-[10px] text-zinc-500 font-mono tracking-tight uppercase">
                   {facilityCode}
                 </p>
               </div>
             </div>
             
-            <div className="border-t border-brand-border/60 pt-2.5 flex flex-col gap-1.5 text-[10px] font-mono">
-              <div className="flex justify-between items-center text-brand-muted">
+            <div className="border-t border-[#E6E6E6] pt-2.5 flex flex-col gap-1.5 text-[10px] font-mono">
+              <div className="flex justify-between items-center text-zinc-500">
                 <span>Duty Chef:</span>
-                <span className="font-bold text-brand-text truncate max-w-[110px]">{chefOnDuty}</span>
+                <span className="font-bold text-[#0F172A] truncate max-w-[110px]">{chefOnDuty}</span>
               </div>
-              <div className="flex justify-between items-center text-brand-muted">
+              <div className="flex justify-between items-center text-zinc-500">
                 <span>Station Pass:</span>
-                <span className="bg-brand-accent/10 text-brand-accent border border-brand-accent/20 rounded px-1.5 py-0.5 text-[8px] uppercase font-bold tracking-wider">ACTIVE</span>
+                <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 rounded px-1.5 py-0.5 text-[8px] uppercase font-bold tracking-wider">ACTIVE</span>
               </div>
             </div>
           </div>
 
           {/* APP SEGMENT ROUTING BAR */}
-          <div className="bg-brand-surface border border-brand-border rounded-xl p-3 shadow-md flex flex-col gap-1.5">
-            <span className="text-[9px] font-mono font-bold text-brand-muted uppercase tracking-widest px-2.5 mb-1 block">
+          <div className="bg-white border border-[#E6E6E6] rounded-xl p-3 shadow-sm flex flex-col gap-1.5">
+            <span className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest px-2.5 mb-1 block">
               WORKSTATIONS
             </span>
             
             <button
               id="sidebar-tab-prep"
               onClick={() => setActiveTab('prep')}
-              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-extrabold uppercase tracking-wider transition-all flex items-center gap-3 border ${
+              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-3 border ${
                 activeTab === 'prep'
-                  ? 'bg-brand-bg border-brand-accent/40 text-brand-accent shadow-sm'
-                  : 'text-brand-muted hover:text-brand-text hover:bg-brand-bg/40 border-transparent'
+                  ? 'bg-[#0F172A] border-[#1E293B] text-emerald-400 shadow-sm'
+                  : 'text-slate-600 hover:text-[#0F172A] hover:bg-slate-50 border-transparent'
               }`}
             >
-              <CheckCircle className="w-4 h-4" />
+              <CheckCircle className="w-4 h-4 text-emerald-600" />
               <span>Mise en Place</span>
             </button>
 
             <button
               id="sidebar-tab-recipes"
               onClick={() => setActiveTab('recipes')}
-              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-extrabold uppercase tracking-wider transition-all flex items-center gap-3 border ${
+              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-3 border ${
                 activeTab === 'recipes'
-                  ? 'bg-brand-bg border-brand-accent/40 text-brand-accent shadow-sm'
-                  : 'text-brand-muted hover:text-brand-text hover:bg-brand-bg/40 border-transparent'
+                  ? 'bg-[#0F172A] border-[#1E293B] text-emerald-400 shadow-sm'
+                  : 'text-slate-600 hover:text-[#0F172A] hover:bg-slate-50 border-transparent'
               }`}
             >
-              <Sliders className="w-4 h-4" />
+              <Sliders className="w-4 h-4 text-emerald-600" />
               <span>Recipes & Costing</span>
             </button>
 
             <button
               id="sidebar-tab-ai-parser"
               onClick={() => setActiveTab('ai-parser')}
-              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-extrabold uppercase tracking-wider transition-all flex items-center gap-3 border ${
+              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-3 border ${
                 activeTab === 'ai-parser'
-                  ? 'bg-brand-bg border-brand-accent/40 text-brand-accent shadow-sm'
-                  : 'text-brand-muted hover:text-brand-text hover:bg-brand-bg/40 border-transparent'
+                  ? 'bg-[#0F172A] border-[#1E293B] text-emerald-400 shadow-sm'
+                  : 'text-slate-600 hover:text-[#0F172A] hover:bg-slate-50 border-transparent'
               }`}
             >
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="w-4 h-4 text-emerald-500" />
               <span>AI Extractor</span>
             </button>
 
             <button
               id="sidebar-tab-wire"
               onClick={() => setActiveTab('wire')}
-              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-extrabold uppercase tracking-wider transition-all flex items-center gap-3 border ${
+              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-3 border ${
                 activeTab === 'wire'
-                  ? 'bg-brand-bg border-brand-accent/40 text-brand-accent shadow-sm'
-                  : 'text-brand-muted hover:text-brand-text hover:bg-brand-bg/40 border-transparent'
+                  ? 'bg-[#0F172A] border-[#1E293B] text-emerald-400 shadow-sm'
+                  : 'text-slate-600 hover:text-[#0F172A] hover:bg-slate-50 border-transparent'
               }`}
             >
-              <AlertTriangle className="w-4 h-4" />
+              <AlertTriangle className="w-4 h-4 text-emerald-600" />
               <span>Pass & 86 List</span>
             </button>
 
             <button
               id="sidebar-tab-branding"
               onClick={() => setActiveTab('branding')}
-              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-extrabold uppercase tracking-wider transition-all flex items-center gap-3 border ${
+              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-3 border ${
                 activeTab === 'branding'
-                  ? 'bg-brand-bg border-brand-accent/40 text-brand-accent shadow-sm'
-                  : 'text-brand-muted hover:text-brand-text hover:bg-brand-bg/40 border-transparent'
+                  ? 'bg-[#0F172A] border-[#1E293B] text-emerald-400 shadow-sm'
+                  : 'text-slate-600 hover:text-[#0F172A] hover:bg-slate-50 border-transparent'
               }`}
             >
-              <Settings className="w-4 h-4" />
+              <Settings className="w-4 h-4 text-emerald-600" />
               <span>Brand Center</span>
             </button>
           </div>
@@ -857,43 +857,43 @@ export default function App() {
         <section id="main-workstation-panel" className="col-span-1 lg:col-span-9 flex flex-col gap-5">
           
           {/* MOBILE RESPONSIVE NAVIGATION TOOLBAR (KEEPS APP FULLY ACCESSIBLE ON TABLET/MOBILE) */}
-          <div className="lg:hidden bg-brand-surface border border-brand-border p-1 rounded-xl flex gap-1 overflow-x-auto scrollbar-none shadow-sm">
+          <div className="lg:hidden bg-white border border-[#E6E6E6] p-1 rounded-xl flex gap-1 overflow-x-auto scrollbar-none shadow-sm">
             <button
               onClick={() => setActiveTab('prep')}
-              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-tight whitespace-nowrap ${
-                activeTab === 'prep' ? 'bg-brand-accent text-white' : 'text-brand-muted hover:text-brand-text'
+              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-tight whitespace-nowrap transition-all ${
+                activeTab === 'prep' ? 'bg-[#0F172A] text-emerald-400 border border-emerald-500/20' : 'text-slate-600 hover:text-[#0F172A]'
               }`}
             >
               Mise en Place
             </button>
             <button
               onClick={() => setActiveTab('recipes')}
-              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-tight whitespace-nowrap ${
-                activeTab === 'recipes' ? 'bg-brand-accent text-white' : 'text-brand-muted hover:text-brand-text'
+              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-tight whitespace-nowrap transition-all ${
+                activeTab === 'recipes' ? 'bg-[#0F172A] text-emerald-400 border border-emerald-500/20' : 'text-slate-600 hover:text-[#0F172A]'
               }`}
             >
               Recipes & Costing
             </button>
             <button
               onClick={() => setActiveTab('ai-parser')}
-              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-tight whitespace-nowrap ${
-                activeTab === 'ai-parser' ? 'bg-brand-accent text-white' : 'text-brand-muted hover:text-brand-text'
+              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-tight whitespace-nowrap transition-all ${
+                activeTab === 'ai-parser' ? 'bg-[#0F172A] text-emerald-400 border border-emerald-500/20' : 'text-slate-600 hover:text-[#0F172A]'
               }`}
             >
               AI Extractor
             </button>
             <button
               onClick={() => setActiveTab('wire')}
-              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-tight whitespace-nowrap ${
-                activeTab === 'wire' ? 'bg-brand-accent text-white' : 'text-brand-muted hover:text-brand-text'
+              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-tight whitespace-nowrap transition-all ${
+                activeTab === 'wire' ? 'bg-[#0F172A] text-emerald-400 border border-emerald-500/20' : 'text-slate-600 hover:text-[#0F172A]'
               }`}
             >
               Pass & 86
             </button>
             <button
               onClick={() => setActiveTab('branding')}
-              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-tight whitespace-nowrap ${
-                activeTab === 'branding' ? 'bg-brand-accent text-white' : 'text-brand-muted hover:text-brand-text'
+              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-tight whitespace-nowrap transition-all ${
+                activeTab === 'branding' ? 'bg-[#0F172A] text-emerald-400 border border-emerald-500/20' : 'text-slate-600 hover:text-[#0F172A]'
               }`}
             >
               Brand Center
@@ -1133,25 +1133,24 @@ export default function App() {
                    {/* TAB 2: CULINARY RECIPES WORKSPACE - HIGH GRAPHICS INTERACTION */}
             {activeTab === 'recipes' && (
               <div id="recipes-panel-parent" className="flex flex-col gap-5 w-full">
-                
-                {/* Recipes Navigation Subtabs */}
-                <div className="bg-zinc-900/40 p-1.5 border border-zinc-900 rounded-xl flex flex-col sm:flex-row gap-3 items-center justify-between shadow-lg">
-                  <div className="px-2 py-1">
-                    <h3 className="text-xs font-mono font-extrabold uppercase tracking-widest text-zinc-100 flex items-center gap-1.5">
-                      <Sliders className="w-4 h-4 text-red-500" /> Recipes & Production Workspace
+                        {/* Recipes Navigation Subtabs */}
+                <div className="bg-white p-4 border border-[#E6E6E6] rounded-xl flex flex-col sm:flex-row gap-3 items-center justify-between shadow-xs">
+                  <div className="px-1 py-0.5">
+                    <h3 className="text-xs font-mono font-black uppercase tracking-widest text-[#0F172A] flex items-center gap-1.5">
+                      <Sliders className="w-4 h-4 text-emerald-600 animate-spin-pulse" /> Recipes & Production Workspace
                     </h3>
-                    <p className="text-[10px] font-mono text-zinc-500 uppercase mt-0.5">
+                    <p className="text-[10px] font-mono text-zinc-500 uppercase mt-1">
                       Failsafe yields • cost ratio trackers • manual compile sheets
                     </p>
                   </div>
-                  <div className="flex bg-zinc-950 p-1 border border-zinc-850 rounded-lg gap-1 shrink-0 overflow-x-auto w-full sm:w-auto">
+                  <div className="flex bg-slate-50 p-1 border border-slate-200 rounded-xl gap-1 shrink-0 overflow-x-auto w-full sm:w-auto">
                     <button
                       id="subtab-plate-costing"
                       onClick={() => setRecipeSubTab('costing')}
-                      className={`flex-1 sm:flex-initial px-4 py-2 rounded-md font-mono text-[10px] font-extrabold uppercase tracking-widest transition-all cursor-pointer ${
+                      className={`flex-1 sm:flex-initial px-4 py-2 rounded-lg font-mono text-[10px] font-bold uppercase tracking-widest transition-all cursor-pointer ${
                         recipeSubTab === 'costing'
-                          ? 'bg-red-600 text-white border border-red-500'
-                          : 'text-zinc-400 hover:text-zinc-200 border border-transparent'
+                          ? 'bg-[#0F172A] text-emerald-400 border border-emerald-500/20 shadow-sm'
+                          : 'text-slate-600 hover:text-[#0F172A] border border-transparent'
                       }`}
                     >
                       Plate Costing
@@ -1159,10 +1158,10 @@ export default function App() {
                     <button
                       id="subtab-subrecipes"
                       onClick={() => setRecipeSubTab('subrecipes')}
-                      className={`flex-1 sm:flex-initial px-4 py-2 rounded-md font-mono text-[10px] font-extrabold uppercase tracking-widest transition-all cursor-pointer ${
+                      className={`flex-1 sm:flex-initial px-4 py-2 rounded-lg font-mono text-[10px] font-bold uppercase tracking-widest transition-all cursor-pointer ${
                         recipeSubTab === 'subrecipes'
-                          ? 'bg-red-600 text-white border border-red-500'
-                          : 'text-zinc-400 hover:text-zinc-200 border border-transparent'
+                          ? 'bg-[#0F172A] text-emerald-400 border border-emerald-500/20 shadow-sm'
+                          : 'text-slate-600 hover:text-[#0F172A] border border-transparent'
                       }`}
                     >
                       Sub-recipes
@@ -1170,10 +1169,10 @@ export default function App() {
                     <button
                       id="subtab-builder"
                       onClick={() => setRecipeSubTab('builder')}
-                      className={`flex-1 sm:flex-initial px-4 py-2 rounded-md font-mono text-[10px] font-extrabold uppercase tracking-widest transition-all cursor-pointer ${
+                      className={`flex-1 sm:flex-initial px-4 py-2 rounded-lg font-mono text-[10px] font-bold uppercase tracking-widest transition-all cursor-pointer ${
                         recipeSubTab === 'builder'
-                          ? 'bg-red-650 text-white border border-red-500'
-                          : 'text-zinc-400 hover:text-zinc-200 border border-transparent'
+                          ? 'bg-[#0F172A] text-[#C47E5A] border border-emerald-500/20 shadow-sm'
+                          : 'text-slate-600 hover:text-[#0F172A] border border-transparent'
                       }`}
                     >
                       Recipe Builder
@@ -1187,13 +1186,13 @@ export default function App() {
                     <div id="plate-costing-tab-content" className="grid grid-cols-1 md:grid-cols-12 gap-5">
                       
                       {/* Recipe Selection Sidebar List */}
-                      <div className="md:col-span-4 bg-zinc-900/60 border border-zinc-900 rounded-xl p-3 flex flex-col gap-2 shadow-md">
-                        <div className="flex justify-between items-center px-1 pb-1 border-b border-zinc-800">
-                          <h4 className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-widest">
+                      <div className="md:col-span-3 bg-white border border-[#E6E6E6] rounded-xl p-4 flex flex-col gap-3 shadow-xs">
+                        <div className="flex justify-between items-center pb-2 border-b border-[#E6E6E6]">
+                          <h4 className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest">
                             STATION RECIPES
                           </h4>
                         </div>
-                        <div className="flex flex-col gap-1.5 max-h-[355px] overflow-y-auto">
+                        <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto">
                           {filteredRecipesList.map((r) => {
                             const details = calculateRecipeCostDetails(r, r.originalCovers, subRecipes);
                             const isExcessiveCost = details.foodCostPercentage > 30;
@@ -1206,21 +1205,21 @@ export default function App() {
                                   setSelectedRecipeId(r.id);
                                   setCustomSalePrice(r.salePrice);
                                 }}
-                                className={`w-full text-left p-2.5 rounded-lg border transition-all cursor-pointer ${
+                                className={`w-full text-left p-3 rounded-xl border transition-all cursor-pointer ${
                                   selectedRecipeId === r.id
-                                    ? 'bg-zinc-800 border-zinc-700 text-white'
-                                    : 'bg-zinc-950/80 border-zinc-850 text-zinc-400 hover:text-zinc-200'
+                                    ? 'bg-emerald-50/50 border-emerald-300 text-slate-900 shadow-xs ring-1 ring-emerald-300/30'
+                                    : 'bg-white border-[#E6E6E6] text-slate-600 hover:text-[#0F172A] hover:bg-slate-50'
                                 }`}
                               >
-                                <div className="text-xs font-mono font-bold truncate">
+                                <div className="text-xs font-mono font-extrabold truncate">
                                   {r.name}
                                 </div>
-                                <div className="flex justify-between items-center mt-1">
-                                  <span className="text-[9px] font-mono uppercase bg-zinc-900 px-1 border border-zinc-800 rounded text-zinc-400">
+                                <div className="flex justify-between items-center mt-1.5 pt-1.5 border-t border-slate-100">
+                                  <span className="text-[9px] font-mono uppercase bg-slate-100 text-slate-600 px-1.5 py-0.5 border border-slate-200 rounded">
                                     {r.station}
                                   </span>
-                                  <span className={`text-[9px] font-mono ${
-                                    isExcessiveCost ? 'text-red-400' : 'text-emerald-400'
+                                  <span className={`text-[9.5px] font-mono font-bold ${
+                                    isExcessiveCost ? 'text-rose-600' : 'text-emerald-700'
                                   }`}>
                                     FC%: {details.foodCostPercentage.toFixed(1)}%
                                   </span>
@@ -1230,300 +1229,335 @@ export default function App() {
                           })}
 
                           {filteredRecipesList.length === 0 && (
-                            <div className="text-center py-6 text-xs text-zinc-500 font-mono italic">
+                            <div className="text-center py-6 text-xs text-slate-400 font-mono italic">
                               No recipes under {currentStation} station.
                             </div>
                           )}
                         </div>
                       </div>
-
-                      {/* Primary Recipe Detail, Scaling Panel, & EP vs AP Calculations */}
-                      <div className="md:col-span-8 flex flex-col gap-4">
-                        <div className="bg-zinc-900/60 border border-zinc-900 rounded-xl p-4 shadow-md">
-                                         {/* Header Details */}
-                          <div className="flex flex-col sm:flex-row justify-between items-start gap-3 border-b border-zinc-800/80 pb-3 mb-4">
-                            <div>
-                              <div className="flex flex-wrap items-center gap-1.5">
-                                <span className="bg-zinc-850 px-2 py-0.5 border border-zinc-800 rounded text-[9px] font-mono text-zinc-400 uppercase">
-                                  {activeRecipe.station} STATION
-                                </span>
-                                <span className="text-[9px] font-mono text-zinc-500">
-                                  ID: {activeRecipe.id}
-                                </span>
-                                
-                                {/* Status Badge */}
-                                <span className={`px-2 py-0.5 border rounded text-[9px] font-mono uppercase font-extrabold ${
-                                  activeRecipe.status === 'Draft'
-                                    ? 'bg-amber-950/25 border-amber-800/60 text-amber-500'
-                                    : activeRecipe.status === 'Archived'
-                                    ? 'bg-zinc-900 border-zinc-800 text-zinc-500'
-                                    : 'bg-emerald-950/25 border-emerald-805 text-emerald-500'
-                                }`}>
-                                  {activeRecipe.status || 'Active'}
-                                </span>
-
-                                {/* Menu Section Badge */}
-                                <span className="bg-red-950/20 border border-red-900/35 px-2 py-0.5 rounded text-[9px] font-mono text-red-400 uppercase font-extrabold">
-                                  🍽️ {activeRecipe.menuSection || 'Mains'}
-                                </span>
-                                
-                                {/* Prep Time Badge */}
-                                <span className="bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded text-[9px] font-mono text-zinc-400 flex items-center gap-1">
-                                  <Clock className="w-2.5 h-2.5 text-zinc-500" /> {activeRecipe.timeMinutes || 30} MIN PREP
-                                </span>
-                              </div>
-                              <h3 className="text-base font-mono font-bold uppercase tracking-tight text-white mt-1">
-                                {activeRecipe.name}
-                              </h3>
-                              
-                              {/* Tags lists */}
-                              {activeRecipe.tags && activeRecipe.tags.length > 0 && (
-                                <div className="flex flex-wrap gap-1 mt-1.5">
-                                  {activeRecipe.tags.map((t, idx) => (
-                                    <span key={idx} className="text-[8.5px] font-mono bg-zinc-950 border border-zinc-850 text-zinc-400 px-1.5 py-0.2 rounded">
-                                      #{t}
-                                    </span>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-
-                            {/* Dynamic Covers Scaling Buttons */}
-                            <div className="bg-zinc-950 border border-zinc-800 p-2 rounded-lg flex flex-col items-center shrink-0">
-                              <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-widest">
-                                COVERS SCALING
-                              </span>
-                              <div className="flex items-center gap-2 mt-1">
-                                <button
-                                  id="btn-scale-down"
-                                  onClick={() => handleScaleCovers(activeRecipe.id, -1)}
-                                  className="w-6 h-6 rounded bg-zinc-905 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 text-xs font-bold flex items-center justify-center cursor-pointer"
-                                >
-                                  -
-                                </button>
-                                
-                                <input
-                                  id="input-scale-covers-value"
-                                  type="number"
-                                  min="1"
-                                  max="500"
-                                  value={activeRecipe.targetCovers}
-                                  onChange={(e) => handleSetCoversDirectly(activeRecipe.id, parseInt(e.target.value) || 1)}
-                                  className="bg-zinc-900 border border-zinc-800 rounded text-center text-xs font-mono text-red-500 font-bold w-12 py-0.5 focus:outline-none"
-                                />
-
-                                <button
-                                  id="btn-scale-up"
-                                  onClick={() => handleScaleCovers(activeRecipe.id, 1)}
-                                  className="w-6 h-6 rounded bg-zinc-905 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 text-xs font-bold flex items-center justify-center cursor-pointer"
-                                >
-                                  +
-                                </button>
-                              </div>
-                              <span className="text-[8px] font-mono text-zinc-400 mt-0.5">
-                                Base batch: {activeRecipe.originalCovers}
-                              </span>
-                            </div>
-                          </div>
-
-                          {/* AP vs EP Costing Performance Metrics */}
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-                            
-                            {/* Metric 1: Total Cost */}
-                            <div className="bg-zinc-950 border border-zinc-850 p-3 rounded-lg flex flex-col">
-                              <span className="text-[9.5px] font-mono text-zinc-500 uppercase tracking-wider">
-                                TOTAL BATCH COST (AP)
-                              </span>
-                              <span className="text-xl font-mono font-bold text-white mt-1">
-                                ${costCalculations?.totalCost.toFixed(2) || '0.00'}
-                              </span>
-                              <span className="text-[8px] font-mono text-zinc-400 mt-0.5">
-                                Adjusted (waste included)
-                              </span>
-                            </div>
-
-                            {/* Metric 2: Cost Per Plate */}
-                            <div className="bg-zinc-950 border border-zinc-850 p-3 rounded-lg flex flex-col">
-                              <span className="text-[9.5px] font-mono text-zinc-500 uppercase tracking-wider">
-                                PLATE PORTION COST (EP)
-                              </span>
-                              <span className="text-xl font-mono font-bold text-red-500 mt-1">
-                                ${costCalculations?.costPerPortion.toFixed(2) || '0.00'}
-                              </span>
-                              <span className="text-[8px] font-mono text-zinc-400 mt-0.5 hidden sm:block">
-                                Usable yield-weighted
-                              </span>
-                            </div>
-
-                            {/* Metric 3: Food Cost % Controller */}
-                            <div className={`p-3 rounded-lg border flex flex-col ${
-                              costCalculations && costCalculations.foodCostPercentage > 30
-                                ? 'bg-red-955/40 border-red-900/40 text-red-400'
-                                : 'bg-zinc-955 border-zinc-850 text-emerald-500'
-                            }`}>
-                              <div className="flex justify-between items-center">
-                                <span className="text-[9.5px] font-mono text-zinc-500 uppercase tracking-wider">
-                                  FOOD COST RATIO
-                                </span>
-                                {costCalculations && costCalculations.foodCostPercentage > 30 && (
-                                  <span className="text-[8px] bg-red-650 text-white font-mono px-1 rounded animate-pulse">
-                                    WARN
+                                       {/* Primary Recipe Detail, Scaling Panel, & EP vs AP Calculations */}
+                      <div className="md:col-span-9 grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+                        
+                        {/* LEFT COLUMN: Recipe Info, Scaling Panel, Ingredients Deep-Dive Table & Execution Steps */}
+                        <div className="lg:col-span-7 flex flex-col gap-5">
+                          
+                          {/* Card 1: Recipe Identity & Scaling Controls */}
+                          <div className="spec-card flex flex-col gap-4">
+                            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 border-b border-[#E6E6E6] pb-4">
+                              <div className="space-y-1">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <span className="bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-[9px] font-mono text-slate-600 uppercase font-bold">
+                                    {activeRecipe.station} STATION
                                   </span>
-                                )}
-                              </div>
-                              <span className="text-xl font-mono font-bold mt-1 block">
-                                {costCalculations?.foodCostPercentage.toFixed(1) || '0.0'}%
-                              </span>
-                              
-                              {/* Interactive Pricing inputs for Real-Time Recalculations */}
-                              <div className="flex items-center gap-1.5 mt-1.5 pt-1.5 border-t border-zinc-800/30">
-                                <span className="text-[8px] font-mono text-zinc-500 uppercase">PRICE: $</span>
-                                <input
-                                  id="input-sale-price"
-                                  type="number"
-                                  step="0.5"
-                                  value={activeRecipe.salePrice || 0}
-                                  onChange={(e) => {
-                                    const val = parseFloat(e.target.value) || 0;
-                                    setRecipes(prev => prev.map(rec => rec.id === activeRecipe.id ? { ...rec, salePrice: val } : rec));
-                                  }}
-                                  className="bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-white rounded px-1 py-0.2 w-14 focus:outline-none"
-                                />
-                              </div>
-                            </div>
-
-                          </div>
-
-                          {/* Financial Margin & Safety Compliance Center */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-                            
-                            {/* Target Costing Variance Panel */}
-                            <div className="bg-zinc-950 border border-zinc-850 rounded-xl p-3.5 flex flex-col justify-between shadow-inner">
-                              <div className="flex justify-between items-center text-[9px] font-mono text-zinc-500 uppercase tracking-widest font-extrabold pb-2 border-b border-zinc-900">
-                                <span>FINANCIAL MARGIN CALIBRATOR</span>
-                                <span className={`text-[8.5px] font-extrabold px-1.5 py-0.2 rounded border ${
-                                  costCalculations && costCalculations.foodCostPercentage <= (activeRecipe.targetFoodCostPercentage || 28)
-                                    ? 'bg-emerald-950/40 text-emerald-400 border-emerald-905/30'
-                                    : 'bg-red-955/40 text-red-500 border-red-900/30'
-                                }`}>
-                                  {costCalculations && costCalculations.foodCostPercentage <= (activeRecipe.targetFoodCostPercentage || 28) ? 'PROFITABLE' : 'RISK! SLOW MARGIN'}
-                                </span>
-                              </div>
-                              <div className="flex justify-between items-center mt-3 font-mono">
-                                <div className="flex flex-col">
-                                  <span className="text-[10px] text-zinc-500 uppercase">Target Cost Ceiling</span>
-                                  <span className="text-sm font-bold text-amber-500">{(activeRecipe.targetFoodCostPercentage || 28)}%</span>
-                                </div>
-                                <div className="text-right flex flex-col">
-                                  <span className="text-[10px] text-zinc-500 uppercase">Active Variance</span>
-                                  <span className={`text-sm font-extrabold ${
-                                    costCalculations && costCalculations.foodCostPercentage <= (activeRecipe.targetFoodCostPercentage || 28) ? 'text-emerald-400' : 'text-red-400'
+                                  <span className="text-[9px] font-mono text-slate-400 font-bold">
+                                    ID: {activeRecipe.id}
+                                  </span>
+                                  
+                                  {/* Status Badge */}
+                                  <span className={`px-2 py-0.5 border rounded text-[9px] font-mono uppercase font-black ${
+                                    activeRecipe.status === 'Draft'
+                                      ? 'bg-amber-50 border-amber-300 text-amber-700'
+                                      : activeRecipe.status === 'Archived'
+                                      ? 'bg-slate-100 border-slate-200 text-slate-500'
+                                      : 'bg-emerald-50 border-emerald-300 text-emerald-700'
                                   }`}>
-                                    {(costCalculations ? (costCalculations.foodCostPercentage - (activeRecipe.targetFoodCostPercentage || 28)).toFixed(1) : '0.0')}%
+                                    {activeRecipe.status || 'Active'}
+                                  </span>
+
+                                  {/* Menu Section Badge */}
+                                  <span className="bg-rose-50 border border-rose-200/60 px-2 py-0.5 rounded text-[9px] font-mono text-rose-700 uppercase font-black">
+                                    🍽️ {activeRecipe.menuSection || 'Mains'}
+                                  </span>
+                                  
+                                  {/* Prep Time Badge */}
+                                  <span className="bg-slate-50 border border-slate-200 px-2 py-0.5 rounded text-[9px] font-mono text-slate-600 flex items-center gap-1">
+                                    <Clock className="w-2.5 h-2.5 text-slate-500" /> {activeRecipe.timeMinutes || 30} MIN PREP
                                   </span>
                                 </div>
-                              </div>
-                              {/* Graphic relative cost ratio bar */}
-                              <div className="w-full bg-zinc-900 h-1.5 rounded-full overflow-hidden mt-3 border border-zinc-800">
-                                <div 
-                                  className={`h-full rounded-full transition-all duration-300 ${
-                                    costCalculations && costCalculations.foodCostPercentage <= (activeRecipe.targetFoodCostPercentage || 28)
-                                      ? 'bg-emerald-500'
-                                      : 'bg-red-500'
-                                  }`}
-                                  style={{ width: `${Math.min(100, costCalculations ? (costCalculations.foodCostPercentage / (activeRecipe.targetFoodCostPercentage || 28)) * 100 : 50)}%` }}
-                                />
-                              </div>
-                            </div>
-
-                            {/* Allergens compliance warning */}
-                            <div className="bg-zinc-950 border border-zinc-850 rounded-xl p-3.5 flex flex-col justify-between shadow-inner">
-                              <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest font-extrabold pb-2 border-b border-zinc-900 flex justify-between">
-                                <span>DIETARY SAFETY ALERTS</span>
-                                <span className="text-[8.5px] text-zinc-500 font-bold uppercase">Compliance Catalog</span>
-                              </div>
-                              <div className="flex flex-wrap gap-1.5 mt-3">
-                                {activeRecipe.allergens && activeRecipe.allergens.length > 0 ? (
-                                  activeRecipe.allergens.map((alg, idx) => (
-                                    <span key={idx} className="text-[9.2px] font-mono bg-red-955/20 border border-red-900/60 text-red-400 px-2 py-0.5 rounded-md font-extrabold uppercase tracking-wider animate-pulse">
-                                      ⚠️ {alg}
-                                    </span>
-                                  ))
-                                ) : (
-                                  <span className="text-[9.5px] font-mono text-emerald-400 bg-emerald-955/10 border border-emerald-900/40 px-3 py-1.5 rounded-md flex items-center gap-1.5 w-full font-bold uppercase">
-                                    ✓ Allergen-Safe / Uncompromised
-                                  </span>
+                                <h3 className="text-[#0F172A] text-lg font-mono font-black uppercase tracking-tight pt-1">
+                                  {activeRecipe.name}
+                                </h3>
+                                
+                                {/* Tags lists */}
+                                {activeRecipe.tags && activeRecipe.tags.length > 0 && (
+                                  <div className="flex flex-wrap gap-1 pt-1">
+                                    {activeRecipe.tags.map((t, idx) => (
+                                      <span key={idx} className="text-[9px] font-mono bg-slate-100 border border-slate-200 text-slate-600 px-1.5 py-0.5 rounded uppercase font-semibold">
+                                        #{t}
+                                      </span>
+                                    ))}
+                                  </div>
                                 )}
                               </div>
+
+                              {/* Dynamic Covers Scaling Buttons */}
+                              <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl flex flex-col items-center shrink-0 shadow-xs">
+                                <span className="text-[8.5px] font-mono text-slate-500 uppercase tracking-widest font-black">
+                                  COVERS SCALING
+                                </span>
+                                <div className="flex items-center gap-2 mt-2">
+                                  <button
+                                    id="btn-scale-down"
+                                    onClick={() => handleScaleCovers(activeRecipe.id, -1)}
+                                    className="w-7 h-7 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold flex items-center justify-center cursor-pointer transition-all active:scale-95 shadow-2xs"
+                                  >
+                                    -
+                                  </button>
+                                  
+                                  <input
+                                    id="input-scale-covers-value"
+                                    type="number"
+                                    min="1"
+                                    max="500"
+                                    value={activeRecipe.targetCovers}
+                                    onChange={(e) => handleSetCoversDirectly(activeRecipe.id, parseInt(e.target.value) || 1)}
+                                    className="bg-white border border-slate-200 rounded-lg text-center text-xs font-mono text-emerald-800 font-extrabold w-14 py-1 focus:ring-1 focus:ring-emerald-350 focus:border-emerald-350 focus:outline-none"
+                                  />
+
+                                  <button
+                                    id="btn-scale-up"
+                                    onClick={() => handleScaleCovers(activeRecipe.id, 1)}
+                                    className="w-7 h-7 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold flex items-center justify-center cursor-pointer transition-all active:scale-95 shadow-2xs"
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                                <span className="text-[8px] font-mono text-slate-400 mt-1 font-semibold">
+                                  Base batch: {activeRecipe.originalCovers}
+                                </span>
+                              </div>
                             </div>
-
                           </div>
-
-                          {/* Deep-Dive Ingredients table detailing AP case weights vs yield % vs EP edible weights */}
-                          <div className="overflow-x-auto border border-[#E6E6E6] rounded-xl shadow-xs bg-white">
-                            <table className="w-full border-collapse text-left text-xs font-mono">
-                              <thead className="bg-[#0F172A] border-b border-[#1E293B]">
-                                <tr>
-                                  <th className="p-3 text-[9.5px] text-slate-200 uppercase tracking-widest font-bold">INGREDIENT</th>
-                                  <th className="p-3 text-[9.5px] text-slate-200 uppercase tracking-widest font-bold text-right">EDIBLE QTY (EP)</th>
-                                  <th className="p-3 text-[9.5px] text-slate-200 uppercase tracking-widest font-bold text-center">YIELD %</th>
-                                  <th className="p-3 text-[9.5px] text-slate-200 uppercase tracking-widest font-bold text-right">AP RAW REQ</th>
-                                  <th className="p-3 text-[9.5px] text-slate-200 uppercase tracking-widest font-bold text-right">UNIT AP RATE</th>
-                                  <th className="p-3 text-[9.5px] text-slate-200 uppercase tracking-widest font-bold text-right">TOTAL COST</th>
-                                </tr>
-                              </thead>
-                              <tbody className="divide-y divide-zinc-200 text-[11px]">
-                                {costCalculations?.detailedIngredients.map((ing, idx) => {
-                                  const isYieldWastage = ing.yieldPercent < 100;
-
-                                  return (
-                                    <tr id={`recipe-ingredient-row-${idx}`} key={idx} className="hover:bg-emerald-50/30 transition-colors border-b last:border-0 border-zinc-200">
-                                      <td className="p-3 font-semibold text-[#0F172A]">
-                                        {ing.name}
-                                      </td>
-                                      <td className="p-3 text-right font-bold text-emerald-700">
-                                        {ing.scaledQuantity.toFixed(2)} {ing.unit}
-                                      </td>
-                                      <td className="p-3 text-center">
-                                        <span className={`px-1.5 py-0.5 rounded text-[10px] ${
-                                          isYieldWastage ? 'text-amber-700 font-bold bg-amber-500/10 border border-amber-600/20' : 'text-slate-500 bg-slate-100'
-                                        }`}>
-                                          {ing.yieldPercent}%
-                                        </span>
-                                      </td>
-                                      <td className="p-3 text-right text-slate-600">
-                                        {ing.rawQtyNeeded.toFixed(2)} {ing.unit}
-                                      </td>
-                                      <td className="p-3 text-right text-slate-500">
-                                        ${ing.costPerUnit.toFixed(2)}/{ing.purchaseUnit}
-                                      </td>
-                                      <td className="p-3 text-right font-black text-[#0F172A]">
-                                        ${ing.cost.toFixed(2)}
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
-                              </tbody>
-                            </table>
-                          </div>
-
-                          {/* Recipe culinary instructions block */}
-                          <div className="mt-5 pt-4 border-t border-zinc-800/80">
-                            <h4 className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-widest mb-2 flex items-center gap-1">
-                              <FileText className="w-3.5 h-3.5 text-zinc-400" /> EXECUTION STEPS
+                                          {/* Card 2: Ingredients Deep-Dive Ledger */}
+                          <div className="spec-card flex flex-col gap-3">
+                            <h4 className="text-[9.5px] font-mono font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1 pb-1">
+                              🍽️ ITEMIZATION & SCALE MATRIX
                             </h4>
-                            <ol className="flex flex-col gap-2 list-decimal list-inside pl-1 text-[11.5px] leading-relaxed font-mono text-zinc-300">
+                            <div className="overflow-x-auto border border-[#E6E6E6] rounded-xl shadow-xs bg-white">
+                              <table className="w-full border-collapse text-left text-xs font-mono">
+                                <thead className="bg-[#0F172A] border-b border-[#1E293B]">
+                                  <tr>
+                                    <th className="p-3 text-[9px] text-slate-200 uppercase tracking-widest font-bold">INGREDIENT</th>
+                                    <th className="p-3 text-[9px] text-slate-200 uppercase tracking-widest font-bold text-right">EDIBLE QTY (EP)</th>
+                                    <th className="p-3 text-[9px] text-slate-200 uppercase tracking-widest font-bold text-center">YIELD %</th>
+                                    <th className="p-3 text-[9px] text-slate-200 uppercase tracking-widest font-bold text-right">AP RAW REQ</th>
+                                    <th className="p-3 text-[9px] text-slate-200 uppercase tracking-widest font-bold text-right">UNIT RATE</th>
+                                    <th className="p-3 text-[9px] text-slate-200 uppercase tracking-widest font-bold text-right">TOTAL COST</th>
+                                  </tr>
+                                </thead>
+                                <tbody className="divide-y divide-zinc-200 text-[11px] bg-white">
+                                  {costCalculations?.detailedIngredients.map((ing, idx) => {
+                                    const isYieldWastage = ing.yieldPercent < 100;
+
+                                    return (
+                                      <tr id={`recipe-ingredient-row-${idx}`} key={idx} className="hover:bg-emerald-50/20 transition-colors border-b last:border-0 border-zinc-200">
+                                        <td className="p-3 font-bold text-[#0F172A]">
+                                          {ing.name}
+                                        </td>
+                                        <td className="p-3 text-right font-extrabold text-emerald-700">
+                                          {ing.scaledQuantity.toFixed(2)} {ing.unit}
+                                        </td>
+                                        <td className="p-3 text-center">
+                                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                                            isYieldWastage ? 'text-rose-700 bg-rose-50 border border-rose-200' : 'text-slate-500 bg-slate-100 border border-slate-200'
+                                          }`}>
+                                            {ing.yieldPercent}%
+                                          </span>
+                                        </td>
+                                        <td className="p-3 text-right text-slate-600 font-bold">
+                                          {ing.rawQtyNeeded.toFixed(2)} {ing.unit}
+                                        </td>
+                                        <td className="p-3 text-right text-slate-505">
+                                          ${ing.costPerUnit.toFixed(2)}/{ing.purchaseUnit}
+                                        </td>
+                                        <td className="p-3 text-right font-black text-[#0F172A]">
+                                          $ {ing.cost.toFixed(2)}
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+
+                          {/* Card 3: Execution Steps */}
+                          <div className="spec-card flex flex-col gap-3">
+                            <h4 className="text-[9.5px] font-mono font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5 pb-1 border-b border-slate-100">
+                              <FileText className="w-3.5 h-3.5 text-emerald-600" /> BOH COOKING STEPS
+                            </h4>
+                            <ol className="flex flex-col gap-3 list-decimal list-inside pl-1 text-[11px] leading-relaxed font-mono text-slate-700">
                               {activeRecipe.steps.map((step, idx) => (
-                                <li id={`recipe-step-li-${idx}`} key={idx} className="border-b border-zinc-850/20 pb-1.5 last:border-0 pl-1">
-                                  <span className="text-zinc-100">{step}</span>
+                                <li id={`recipe-step-li-${idx}`} key={idx} className="border-b border-slate-100/60 pb-2.5 last:border-0 pl-1">
+                                  <span className="text-[#0F172A] font-semibold">{step}</span>
                                 </li>
                               ))}
                             </ol>
                           </div>
 
                         </div>
-                      </div>
 
+                        {/* RIGHT COLUMN: Financial Summary Metrics & Compliance Checks */}
+                        <div className="lg:col-span-5 flex flex-col gap-5">
+                          
+                          {/* Card 4: Financial Ledger Summary */}
+                          <div className="spec-card flex flex-col gap-4">
+                            <h4 className="text-[9.5px] font-mono font-bold text-slate-500 uppercase tracking-widest pb-1 border-b border-slate-100 flex justify-between items-center">
+                              <span>CORE COST INTELLIGENCE</span>
+                              <span className="text-[8px] bg-[#0F172A] text-emerald-400 px-1.5 py-0.5 rounded font-black tracking-widest uppercase">PLATE-SYNC</span>
+                            </h4>
+                            
+                            <div className="flex flex-col gap-3">
+                              {/* Portions / Batch sizes indicator */}
+                              <div className="flex justify-between items-center text-[10px] font-mono bg-slate-50 px-3 py-1.5 border border-slate-200 rounded-lg text-slate-600">
+                                <span>Batch sizing:</span>
+                                <span className="font-bold text-[#0F172A]">{activeRecipe.targetCovers} {activeRecipe.targetCovers === 1 ? 'Portion' : 'Portions'}</span>
+                              </div>
+
+                              {/* Metric 1: Total Batch Cost (AP) */}
+                              <div className="bg-[#FAFAFA] border border-[#E6E6E6] p-4 rounded-xl flex justify-between items-center">
+                                <div className="flex flex-col gap-0.5">
+                                  <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-bold">
+                                    BATCH COST (AP)
+                                  </span>
+                                  <span className="text-[8.5px] font-mono text-slate-400">
+                                    Includes trimmings & waste
+                                  </span>
+                                </div>
+                                <span className="text-xl font-mono font-black text-[#0F172A]">
+                                  ${costCalculations?.totalCost.toFixed(2) || '0.00'}
+                                </span>
+                              </div>
+
+                              {/* Metric 2: Plate Portion Cost (EP) */}
+                              <div className="bg-slate-50 border border-[#E6E6E6] p-4 rounded-xl flex justify-between items-center">
+                                <div className="flex flex-col gap-0.5">
+                                  <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-bold">
+                                    PLATE PORTION (EP)
+                                  </span>
+                                  <span className="text-[8.5px] font-mono text-slate-400">
+                                    Edible-portion cost rate
+                                  </span>
+                                </div>
+                                <span className="text-xl font-mono font-black text-rose-700 font-bold">
+                                  ${costCalculations?.costPerPortion.toFixed(2) || '0.00'}
+                                </span>
+                              </div>
+
+                              {/* Metric 3: Food Cost % Controller */}
+                              <div className={`p-4 rounded-xl border flex flex-col gap-2.5 ${
+                                costCalculations && costCalculations.foodCostPercentage > 30
+                                  ? 'bg-rose-50 border-rose-300'
+                                  : 'bg-emerald-50/50 border-emerald-300'
+                              }`}>
+                                <div className="flex justify-between items-center">
+                                  <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-bold">
+                                    FOOD COST RATIO
+                                  </span>
+                                  {costCalculations && costCalculations.foodCostPercentage > 30 && (
+                                    <span className="text-[8px] bg-rose-600 text-white font-mono font-bold px-1.5 py-0.5 rounded uppercase tracking-wider animate-pulse shadow-sm">
+                                      CRITICAL LIMIT
+                                    </span>
+                                  )}
+                                </div>
+                                
+                                <div className="flex justify-between items-end">
+                                  <span className={`text-2xl font-mono font-black ${
+                                    costCalculations && costCalculations.foodCostPercentage > 30 ? 'text-rose-700' : 'text-emerald-700'
+                                  }`}>
+                                    {costCalculations?.foodCostPercentage.toFixed(1) || '0.0'}%
+                                  </span>
+                                  
+                                  {/* Interactive Pricing inputs for Real-Time Recalculations */}
+                                  <div className="flex items-center gap-1.5 bg-white border border-[#E6E6E6] rounded-lg px-2 py-1 shadow-2xs">
+                                    <span className="text-[9px] font-mono text-slate-500 font-bold uppercase">PRICE: $</span>
+                                    <input
+                                      id="input-sale-price-recalc"
+                                      type="number"
+                                      step="0.5"
+                                      value={activeRecipe.salePrice || 0}
+                                      onChange={(e) => {
+                                        const val = parseFloat(e.target.value) || 0;
+                                        setRecipes(prev => prev.map(rec => rec.id === activeRecipe.id ? { ...rec, salePrice: val } : rec));
+                                      }}
+                                      className="bg-transparent text-xs font-mono text-[#0F172A] font-extrabold rounded w-14 focus:outline-none focus:ring-0 text-right border-0 p-0"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Card 5: Financial Margin Calibrator */}
+                          <div className="spec-card flex flex-col gap-4">
+                            <h4 className="text-[9.5px] font-mono font-bold text-slate-500 uppercase tracking-widest pb-1 border-b border-slate-100 font-black">
+                              FINANCIAL MARGIN CALIBRATOR
+                            </h4>
+
+                            <div className="flex flex-col gap-3">
+                              <div className="flex justify-between items-center text-[10px] font-mono">
+                                <div className="flex flex-col">
+                                  <span className="text-[10px] text-slate-500 uppercase">Target Cost Ceiling</span>
+                                  <span className="text-xs font-black text-slate-900">{(activeRecipe.targetFoodCostPercentage || 28)}%</span>
+                                </div>
+                                <div className="text-right flex flex-col">
+                                  <span className="text-[10px] text-slate-500 uppercase">Active Variance</span>
+                                  <span className={`text-xs font-black ${
+                                    costCalculations && costCalculations.foodCostPercentage <= (activeRecipe.targetFoodCostPercentage || 28) ? 'text-emerald-700' : 'text-rose-700'
+                                  }`}>
+                                    {(costCalculations ? (costCalculations.foodCostPercentage - (activeRecipe.targetFoodCostPercentage || 28)).toFixed(1) : '0.0')}%
+                                  </span>
+                                </div>
+                              </div>
+                              
+                              {/* Graphic relative cost ratio bar */}
+                              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200">
+                                <div 
+                                  className={`h-full rounded-full transition-all duration-300 ${
+                                    costCalculations && costCalculations.foodCostPercentage <= (activeRecipe.targetFoodCostPercentage || 28)
+                                      ? 'bg-emerald-600'
+                                      : 'bg-rose-600'
+                                  }`}
+                                  style={{ width: `${Math.min(100, costCalculations ? (costCalculations.foodCostPercentage / (activeRecipe.targetFoodCostPercentage || 28)) * 100 : 50)}%` }}
+                                />
+                              </div>
+
+                              <div className="flex justify-center mt-1">
+                                <span className={`text-[9px] font-mono font-black px-2 py-1 rounded-md border ${
+                                  costCalculations && costCalculations.foodCostPercentage <= (activeRecipe.targetFoodCostPercentage || 28)
+                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                    : 'bg-rose-50 text-rose-700 border-rose-200'
+                                }`}>
+                                  {costCalculations && costCalculations.foodCostPercentage <= (activeRecipe.targetFoodCostPercentage || 28) ? '✓ OPTIMAL PROFIT COMPLIANT' : '⚠️ MARGIN WARNING: ADJUST PRICE'}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Card 6: Allergens & Safety Warnings */}
+                          <div className="spec-card flex flex-col gap-4">
+                            <h4 className="text-[9.5px] font-mono font-bold text-slate-500 uppercase tracking-widest pb-1 border-b border-slate-100 flex justify-between items-center">
+                              <span>DIETARY SAFETY ALERTS</span>
+                              <span className="text-[8px] text-slate-400 font-bold uppercase font-black font-mono">Compliance Catalog</span>
+                            </h4>
+
+                            <div className="flex flex-wrap gap-1.5">
+                              {activeRecipe.allergens && activeRecipe.allergens.length > 0 ? (
+                                activeRecipe.allergens.map((alg, idx) => (
+                                  <span key={idx} className="text-[9.5px] font-mono bg-rose-50 border border-rose-200 text-rose-700 px-2.5 py-1 rounded-md font-extrabold uppercase tracking-wide flex items-center justify-center">
+                                    ⚠️ {alg}
+                                  </span>
+                                ))
+                              ) : (
+                                <span className="text-[10px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-2 rounded-xl flex items-center gap-1.5 w-full font-bold uppercase">
+                                  ✓ Allergen-Safe / Uncompromised
+                                </span>
+                              )}
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
                     </div>
                   ) : (
                     <div className="text-center py-10 bg-zinc-900/40 border border-zinc-900 rounded-xl font-mono text-zinc-400 text-xs">
