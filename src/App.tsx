@@ -52,7 +52,8 @@ import {
   FileText,
   Volume2,
   VolumeX,
-  X
+  X,
+  Settings
 } from 'lucide-react';
 import RecipeSpecSheetBuilder from './RecipeSpecSheet';
 
@@ -81,8 +82,36 @@ export default function App() {
   });
 
   // Navigation Panel Tabs
-  const [activeTab, setActiveTab] = useState<'prep' | 'recipes' | 'ai-parser' | 'wire'>('prep');
+  const [activeTab, setActiveTab] = useState<'prep' | 'recipes' | 'ai-parser' | 'wire' | 'branding'>('prep');
   const [recipeSubTab, setRecipeSubTab] = useState<'costing' | 'subrecipes' | 'builder'>('costing');
+
+  // White-label details
+  const [brandName, setBrandName] = useState(() => localStorage.getItem('miseos_brand_name') || 'MiseOS');
+  const [subTitle, setSubTitle] = useState(() => localStorage.getItem('miseos_sub_title') || 'Back-of-House Kitchen Coordination System');
+  const [themeAccent, setThemeAccent] = useState(() => localStorage.getItem('miseos_theme_accent') || '#C47E5A');
+  const [facilityCode, setFacilityCode] = useState(() => localStorage.getItem('miseos_facility_code') || 'THE PASS');
+  const [chefOnDuty, setChefOnDuty] = useState(() => localStorage.getItem('miseos_chef_on_duty') || 'Chef de Cuisine');
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--color-accent', themeAccent);
+    localStorage.setItem('miseos_theme_accent', themeAccent);
+  }, [themeAccent]);
+
+  useEffect(() => {
+    localStorage.setItem('miseos_brand_name', brandName);
+  }, [brandName]);
+
+  useEffect(() => {
+    localStorage.setItem('miseos_sub_title', subTitle);
+  }, [subTitle]);
+
+  useEffect(() => {
+    localStorage.setItem('miseos_facility_code', facilityCode);
+  }, [facilityCode]);
+
+  useEffect(() => {
+    localStorage.setItem('miseos_chef_on_duty', chefOnDuty);
+  }, [chefOnDuty]);
 
   // Currently Selected Recipe for Details Panel
   const [selectedRecipeId, setSelectedRecipeId] = useState<string>(INITIAL_RECIPES[0]?.id || '');
@@ -551,149 +580,248 @@ export default function App() {
         completedPrepCount={completedCount}
         activeAlarmsCount={currentAlarmsCount}
         item86Count={items86.length}
+        brandName={brandName}
+        subTitle={subTitle}
+        facilityCode={facilityCode}
       />
 
       <main className="max-w-7xl mx-auto px-4 py-6 w-full flex-grow grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* LEFT COLUMN/SIDEBAR: ACTIVE KITCHEN LINE MULTI-TIMERS (HIDDEN / NO TIMERS NEEDED) */}
-        <section id="kitchen-timers-pane" className="hidden lg:col-span-4 bg-zinc-900/60 border border-zinc-900 rounded-xl p-4 flex flex-col gap-4 shadow-xl">
-          <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3">
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-red-500 flex items-center gap-2">
-              <Clock className="w-4 h-4 text-red-500 animate-spin-pulse" /> LINE TIMER BANK
-            </h2>
+        {/* 1. UNIFIED APP ROUTING SIDEBAR & BRAND CONTAINER */}
+        <section id="miseos-unified-sidebar-nav" className="col-span-1 lg:col-span-3 flex flex-col gap-5">
+          
+          {/* WHITE LABEL IDENTITY CARD */}
+          <div className="bg-zinc-900/60 border border-zinc-850 rounded-xl p-4 shadow-md flex flex-col gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-red-650 flex items-center justify-center shadow border border-red-500">
+                <Settings className="w-5 h-5 text-white animate-spin-pulse" />
+              </div>
+              <div>
+                <h3 className="text-sm font-mono font-black tracking-tight text-zinc-100 uppercase truncate max-w-[150px]">
+                  {brandName}
+                </h3>
+                <p className="text-[10px] text-zinc-500 font-mono tracking-tight uppercase">
+                  {facilityCode}
+                </p>
+              </div>
+            </div>
             
-            {/* Audio Toggle Toggle Button */}
+            <div className="border-t border-zinc-800/60 pt-2.5 flex flex-col gap-1.5 text-[10px] font-mono">
+              <div className="flex justify-between items-center text-zinc-400">
+                <span>Duty Chef:</span>
+                <span className="font-bold text-zinc-200 truncate max-w-[110px]">{chefOnDuty}</span>
+              </div>
+              <div className="flex justify-between items-center text-zinc-400">
+                <span>Station Pass:</span>
+                <span className="bg-green-950 text-green-400 border border-green-900 rounded px-1 text-[8px] uppercase font-bold tracking-wider">ACTIVE</span>
+              </div>
+            </div>
+          </div>
+
+          {/* APP SEGMENT ROUTING BAR */}
+          <div className="bg-zinc-900/60 border border-zinc-850 rounded-xl p-3 shadow-md flex flex-col gap-1.5">
+            <span className="text-[9px] font-mono font-bold text-zinc-500 uppercase tracking-widest px-2.5 mb-1 block">
+              WORKSTATIONS
+            </span>
+            
             <button
-              id="toggle-audio-alert"
-              onClick={() => setSoundEnabled((prev) => !prev)}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all cursor-pointer ${
-                soundEnabled
-                  ? 'bg-amber-500/10 border-amber-600 text-amber-500'
-                  : 'bg-zinc-800/80 border-zinc-700 text-zinc-500 hover:text-zinc-300'
+              id="sidebar-tab-prep"
+              onClick={() => setActiveTab('prep')}
+              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-extrabold uppercase tracking-wider transition-all flex items-center gap-3 border ${
+                activeTab === 'prep'
+                  ? 'bg-zinc-950 border-red-650/40 text-red-500 shadow-sm'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-950/40 border-transparent'
               }`}
             >
-              {soundEnabled ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
-              {soundEnabled ? 'Live Audio ON' : 'Muted'}
+              <CheckCircle className="w-4 h-4" />
+              <span>Mise en Place</span>
+            </button>
+
+            <button
+              id="sidebar-tab-recipes"
+              onClick={() => setActiveTab('recipes')}
+              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-extrabold uppercase tracking-wider transition-all flex items-center gap-3 border ${
+                activeTab === 'recipes'
+                  ? 'bg-zinc-950 border-red-650/40 text-red-500 shadow-sm'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-950/40 border-transparent'
+              }`}
+            >
+              <Sliders className="w-4 h-4" />
+              <span>Recipes & Costing</span>
+            </button>
+
+            <button
+              id="sidebar-tab-ai-parser"
+              onClick={() => setActiveTab('ai-parser')}
+              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-extrabold uppercase tracking-wider transition-all flex items-center gap-3 border ${
+                activeTab === 'ai-parser'
+                  ? 'bg-zinc-950 border-red-650/40 text-red-500 shadow-sm'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-950/40 border-transparent'
+              }`}
+            >
+              <Sparkles className="w-4 h-4" />
+              <span>AI Extractor</span>
+            </button>
+
+            <button
+              id="sidebar-tab-wire"
+              onClick={() => setActiveTab('wire')}
+              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-extrabold uppercase tracking-wider transition-all flex items-center gap-3 border ${
+                activeTab === 'wire'
+                  ? 'bg-zinc-950 border-red-650/40 text-red-500 shadow-sm'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-950/40 border-transparent'
+              }`}
+            >
+              <AlertTriangle className="w-4 h-4" />
+              <span>Pass & 86 List</span>
+            </button>
+
+            <button
+              id="sidebar-tab-branding"
+              onClick={() => setActiveTab('branding')}
+              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-mono font-extrabold uppercase tracking-wider transition-all flex items-center gap-3 border ${
+                activeTab === 'branding'
+                  ? 'bg-zinc-950 border-red-650/40 text-red-500 shadow-sm'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-950/40 border-transparent'
+              }`}
+            >
+              <Settings className="w-4 h-4" />
+              <span>Brand Center</span>
             </button>
           </div>
 
-          {/* Timers list filtered by active station */}
-          <div className="flex flex-col gap-2.5 max-h-[350px] overflow-y-auto pr-1">
-            {timers
-              .filter((t) => currentStation === 'All' || t.station === currentStation)
-              .map((t) => {
-                const remaining = t.durationMs - t.elapsedMs;
-                const progressPct = Math.min(100, (t.elapsedMs / t.durationMs) * 100);
-                const isAlarming = t.status === 'alarm';
+          {/* ACTIVE KITCHEN LINE MULTI-TIMERS */}
+          <div id="kitchen-timers-pane" className="bg-zinc-900/60 border border-zinc-850 rounded-xl p-4 flex flex-col gap-3 shadow-md">
+            <div className="flex items-center justify-between border-b border-zinc-800/80 pb-2.5">
+              <h2 className="text-[10px] font-mono font-bold uppercase tracking-wider text-red-500 flex items-center gap-2">
+                <Clock className="w-3.5 h-3.5 text-red-500 animate-spin-pulse" /> LINE TIMERS
+              </h2>
+              
+              {/* Audio Toggle Toggle Button */}
+              <button
+                id="toggle-audio-alert"
+                type="button"
+                onClick={() => setSoundEnabled((prev) => !prev)}
+                className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase border transition-all cursor-pointer ${
+                  soundEnabled
+                    ? 'bg-amber-500/10 border-amber-600 text-amber-500'
+                    : 'bg-zinc-855 border-zinc-800 text-zinc-500 hover:text-zinc-300'
+                }`}
+              >
+                {soundEnabled ? <Volume2 className="w-3 h-3" /> : <VolumeX className="w-3 h-3" />}
+                {soundEnabled ? 'Live ON' : 'Muted'}
+              </button>
+            </div>
 
-                return (
-                  <div
-                    id={`line-timer-card-${t.id}`}
-                    key={t.id}
-                    className={`p-3 rounded-lg border transition-all ${
-                      isAlarming
-                        ? 'bg-red-950/80 border-red-500 shadow-md shadow-red-900/10 animate-pulse'
-                        : 'bg-zinc-950/80 border-zinc-800'
-                    }`}
-                  >
-                    <div className="flex justify-between items-start gap-1 pb-1.5">
-                      <div>
-                        <h4 className="text-xs font-mono font-bold text-zinc-200 uppercase tracking-tight truncate max-w-[190px]">
-                          {t.label}
-                        </h4>
-                        <div className="flex gap-2 items-center mt-0.5">
-                          <span className="text-[9px] font-mono bg-zinc-800 border border-zinc-700 font-bold uppercase px-1.5 py-0.2 rounded text-zinc-400">
-                            {t.station}
-                          </span>
-                          <span className="text-[9px] font-mono text-zinc-400">
-                            {Math.round((t.durationMs / 1000 / 60))} MIN
-                          </span>
+            {/* Timers list filtered by active station */}
+            <div className="flex flex-col gap-2 max-h-[180px] overflow-y-auto pr-1">
+              {timers
+                .filter((t) => currentStation === 'All' || t.station === currentStation)
+                .map((t) => {
+                  const remaining = t.durationMs - t.elapsedMs;
+                  const progressPct = Math.min(100, (t.elapsedMs / t.durationMs) * 100);
+                  const isAlarming = t.status === 'alarm';
+
+                  return (
+                    <div
+                      id={`line-timer-card-${t.id}`}
+                      key={t.id}
+                      className={`p-2.5 rounded-lg border transition-all ${
+                        isAlarming
+                          ? 'bg-red-950/80 border-red-500 shadow-md shadow-red-900/10 animate-pulse'
+                          : 'bg-zinc-950 border-zinc-850'
+                      }`}
+                    >
+                      <div className="flex justify-between items-start gap-1 pb-1">
+                        <div>
+                          <h4 className="text-[10px] font-mono font-bold text-zinc-200 uppercase tracking-tight truncate max-w-[110px]">
+                            {t.label}
+                          </h4>
+                          <div className="flex gap-1.5 items-center mt-0.5">
+                            <span className="text-[8px] font-mono bg-zinc-850 border border-zinc-800 font-bold uppercase px-1 rounded text-zinc-400">
+                              {t.station}
+                            </span>
+                          </div>
                         </div>
+
+                        {/* Digital countdown digits */}
+                        <span className={`text-xs font-mono font-bold tracking-wider tabular-nums ${
+                          isAlarming ? 'text-red-400' : 'text-emerald-400'
+                        }`}>
+                          {formatMs(remaining)}
+                        </span>
                       </div>
 
-                      {/* Digital countdown digits */}
-                      <span className={`text-base font-mono font-bold font-medium tracking-widest tabular-nums ${
-                        isAlarming ? 'text-red-400' : 'text-emerald-400'
-                      }`}>
-                        {formatMs(remaining)}
-                      </span>
-                    </div>
+                      {/* Simple Progress bar */}
+                      <div className="w-full bg-zinc-805 h-1 rounded-full overflow-hidden mt-1 mb-1.5">
+                        <div
+                          className={`h-full transition-all duration-1000 ${
+                            isAlarming ? 'bg-red-500' : 'bg-emerald-500'
+                          }`}
+                          style={{ width: `${progressPct}%` }}
+                        ></div>
+                      </div>
 
-                    {/* Simple Progress bar */}
-                    <div className="w-full bg-zinc-800 h-1 rounded-full overflow-hidden mt-1 mb-2">
-                      <div
-                        className={`h-full transition-all duration-1000 ${
-                          isAlarming ? 'bg-red-500' : 'bg-emerald-500'
-                        }`}
-                        style={{ width: `${progressPct}%` }}
-                      ></div>
-                    </div>
-
-                    <div className="flex gap-1.5 justify-end">
-                      {t.status === 'idle' || t.status === 'paused' ? (
-                        <button
-                          id={`timer-btn-start-${t.id}`}
-                          onClick={() => handleStartTimer(t.id)}
-                          className="flex items-center gap-1 bg-zinc-900 hover:bg-zinc-800 text-emerald-500 border border-zinc-800 rounded px-2.5 py-1 text-[10px] font-mono font-bold uppercase cursor-pointer"
-                        >
-                          <Play className="w-2.5 h-2.5" /> Start
-                        </button>
-                      ) : (
-                        t.status === 'running' && (
+                      <div className="flex gap-1 justify-end">
+                        {t.status === 'idle' || t.status === 'paused' ? (
                           <button
-                            id={`timer-btn-pause-${t.id}`}
-                            onClick={() => handlePauseTimer(t.id)}
-                            className="flex items-center gap-1 bg-zinc-900 hover:bg-zinc-800 text-amber-500 border border-zinc-800 rounded px-2.5 py-1 text-[10px] font-mono font-bold uppercase cursor-pointer"
+                            id={`timer-btn-start-${t.id}`}
+                            onClick={() => handleStartTimer(t.id)}
+                            className="bg-zinc-900 hover:bg-zinc-850 text-emerald-500 border border-zinc-850 rounded px-1.5 py-0.5 text-[8px] font-mono font-bold uppercase cursor-pointer"
                           >
-                            <Pause className="w-2.5 h-2.5" /> Hold
+                            Play
                           </button>
-                        )
-                      )}
+                        ) : (
+                          t.status === 'running' && (
+                            <button
+                              id={`timer-btn-pause-${t.id}`}
+                              onClick={() => handlePauseTimer(t.id)}
+                              className="bg-zinc-900 hover:bg-zinc-850 text-amber-500 border border-zinc-855 rounded px-1.5 py-0.5 text-[8px] font-mono font-bold uppercase cursor-pointer"
+                            >
+                              Hold
+                            </button>
+                          )
+                        )}
 
-                      <button
-                        id={`timer-btn-reset-${t.id}`}
-                        onClick={() => handleResetTimer(t.id)}
-                        className="flex items-center gap-1 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 border border-zinc-800 rounded px-2.5 py-1 text-[10px] font-mono font-bold uppercase cursor-pointer"
-                      >
-                        <RotateCcw className="w-2.5 h-2.5" /> Clear
-                      </button>
+                        <button
+                          id={`timer-btn-reset-${t.id}`}
+                          onClick={() => handleResetTimer(t.id)}
+                          className="bg-zinc-900 hover:bg-zinc-855 text-zinc-400 border border-zinc-850 rounded px-1.5 py-0.5 text-[8px] font-mono font-bold uppercase cursor-pointer"
+                        >
+                          Clear
+                        </button>
 
-                      <button
-                        id={`timer-btn-delete-${t.id}`}
-                        onClick={() => handleDeleteTimer(t.id)}
-                        className="p-1 hover:bg-red-950/60 text-zinc-500 hover:text-red-400 rounded transition-colors cursor-pointer"
-                        title="Discard Timer"
-                      >
-                        <Trash2 className="w-3 h-3" />
-                      </button>
+                        <button
+                          id={`timer-btn-delete-${t.id}`}
+                          onClick={() => handleDeleteTimer(t.id)}
+                          className="p-1 hover:bg-red-950/60 text-zinc-500 hover:text-red-400 rounded transition-colors cursor-pointer"
+                          title="Discard"
+                        >
+                          <Trash2 className="w-2.5 h-2.5" />
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
 
-            {timers.filter((t) => currentStation === 'All' || t.station === currentStation).length === 0 && (
-              <div className="text-center py-6 text-xs text-zinc-500 font-mono italic">
-                No active timers for {currentStation} station.
-              </div>
-            )}
-          </div>
+              {timers.filter((t) => currentStation === 'All' || t.station === currentStation).length === 0 && (
+                <div className="text-center py-4 text-[10px] text-zinc-500 font-mono italic">
+                  No active timers for {currentStation}.
+                </div>
+              )}
+            </div>
 
-          {/* Quick Add Timer Form */}
-          <form onSubmit={handleAddTimer} className="mt-2 pt-4 border-t border-zinc-800/80 bg-zinc-950/40 p-3 rounded-lg flex flex-col gap-2">
-            <h5 className="text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-widest">
-              + SPAWNN LINE TIMER
-            </h5>
-            <input
-              id="input-timer-label"
-              type="text"
-              placeholder="e.g. reduction simmer, cod bake"
-              value={newTimerLabel}
-              onChange={(e) => setNewTimerLabel(e.target.value)}
-              className="bg-zinc-900 border border-zinc-800 text-xs px-2.5 py-1.5 rounded text-white font-mono focus:outline-none focus:border-red-500"
-            />
-            <div className="grid grid-cols-2 gap-2">
-              <div className="flex flex-col gap-1">
-                <label className="text-[9px] font-mono text-zinc-500 uppercase">DUR MINS</label>
+            {/* Quick Add Timer Form */}
+            <form onSubmit={handleAddTimer} className="mt-1 pt-3 border-t border-zinc-800/60 flex flex-col gap-1.5">
+              <input
+                id="input-timer-label"
+                type="text"
+                placeholder="simmer, cod bake"
+                value={newTimerLabel}
+                onChange={(e) => setNewTimerLabel(e.target.value)}
+                className="bg-zinc-950 border border-zinc-850 text-[10px] px-2 py-1 rounded text-white font-mono focus:outline-none focus:border-red-500"
+              />
+              <div className="grid grid-cols-2 gap-1.5">
                 <input
                   id="input-timer-mins"
                   type="number"
@@ -701,16 +829,14 @@ export default function App() {
                   max="1440"
                   value={newTimerMins}
                   onChange={(e) => setNewTimerMins(parseInt(e.target.value) || 5)}
-                  className="bg-zinc-900 border border-zinc-800 text-xs px-2 py-1 rounded text-white font-mono focus:outline-none focus:border-red-500"
+                  className="bg-zinc-950 border border-zinc-850 text-[10px] px-1 py-1 rounded text-white font-mono focus:outline-none"
+                  placeholder="min"
                 />
-              </div>
-              <div className="flex flex-col gap-1">
-                <label className="text-[9px] font-mono text-zinc-500 uppercase">STATION</label>
                 <select
                   id="select-timer-station"
                   value={newTimerStation}
                   onChange={(e) => setNewTimerStation(e.target.value as PrepStation)}
-                  className="bg-zinc-900 border border-zinc-850 text-xs px-1.5 py-1 rounded font-mono text-white focus:outline-none"
+                  className="bg-zinc-950 border border-zinc-850 text-[10px] px-1 py-1 rounded font-mono text-zinc-400 focus:outline-none"
                 >
                   <option value="Sauté">Sauté</option>
                   <option value="Grill">Grill</option>
@@ -718,72 +844,62 @@ export default function App() {
                   <option value="Pastry">Pastry</option>
                 </select>
               </div>
-            </div>
-            <button
-              id="btn-add-timer"
-              type="submit"
-              className="bg-red-600 hover:bg-red-700 text-white font-mono uppercase text-[10px] font-bold py-1.5 rounded border border-red-500 mt-1 transition-all flex items-center justify-center gap-1 cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5" /> Ignite Timer
-            </button>
-          </form>
+              <button
+                id="btn-add-timer"
+                type="submit"
+                className="bg-red-600 hover:bg-red-700 text-white font-mono uppercase text-[9px] font-bold py-1 rounded border border-red-500 transition-all cursor-pointer"
+              >
+                + Ignite Timer
+              </button>
+            </form>
+          </div>
         </section>
 
-        {/* RIGHT COLUMN: MAIN WORKSPACE OR INTERACTIVE TAB CONSOLE - EXPANDED TO FULL 12 COLUMNS */}
-        <section id="main-workstation-panel" className="lg:col-span-12 flex flex-col gap-5">
+        {/* 2. MAIN WORKSPACE / CONTENT VIEWPORT FOR SELECTED ACTIONS */}
+        <section id="main-workstation-panel" className="col-span-1 lg:col-span-9 flex flex-col gap-5">
           
-          {/* Workstation Tab Select */}
-          <div className="bg-zinc-900/40 p-1 border border-zinc-900 rounded-lg flex gap-1 items-center justify-between">
-            <div className="flex gap-1 overflow-x-auto scrollbar-none">
-              <button
-                id="tab-prep-sheet"
-                onClick={() => setActiveTab('prep')}
-                className={`px-4 py-2 rounded-md text-xs font-mono font-extrabold uppercase tracking-widest transition-all cursor-pointer ${
-                  activeTab === 'prep'
-                    ? 'bg-zinc-800 border border-zinc-700 text-red-400'
-                    : 'text-zinc-400 hover:text-zinc-200 border border-transparent'
-                }`}
-              >
-                Mise en Place
-              </button>
-              <button
-                id="tab-recipes-costing"
-                onClick={() => setActiveTab('recipes')}
-                className={`px-4 py-2 rounded-md text-xs font-mono font-extrabold uppercase tracking-widest transition-all cursor-pointer ${
-                  activeTab === 'recipes'
-                    ? 'bg-zinc-800 border border-zinc-700 text-red-400'
-                    : 'text-zinc-400 hover:text-zinc-200 border border-transparent'
-                }`}
-              >
-                Recipes
-              </button>
-              <button
-                id="tab-ai-extractor"
-                onClick={() => setActiveTab('ai-parser')}
-                className={`px-4 py-2 rounded-md text-xs font-mono font-extrabold uppercase tracking-widest transition-all cursor-pointer flex items-center gap-1.5 ${
-                  activeTab === 'ai-parser'
-                    ? 'bg-zinc-800 border border-zinc-700 text-red-400'
-                    : 'text-zinc-400 hover:text-zinc-200 border border-transparent'
-                }`}
-              >
-                <Sparkles className="w-3.5 h-3.5 text-semibold animate-pulse" /> AI Extractor
-              </button>
-              <button
-                id="tab-shift-handovers"
-                onClick={() => setActiveTab('wire')}
-                className={`px-4 py-2 rounded-md text-xs font-mono font-extrabold uppercase tracking-widest transition-all cursor-pointer ${
-                  activeTab === 'wire'
-                    ? 'bg-zinc-800 border border-zinc-700 text-red-400'
-                    : 'text-zinc-400 hover:text-zinc-200 border border-transparent'
-                }`}
-              >
-                The Pass / 86 List
-              </button>
-            </div>
-            
-            <div className="hidden sm:block text-[10px] font-mono text-zinc-500 tracking-tight pr-2">
-              MiseOS v2.4
-            </div>
+          {/* MOBILE RESPONSIVE NAVIGATION TOOLBAR (KEEPS APP FULLY ACCESSIBLE ON TABLET/MOBILE) */}
+          <div className="lg:hidden bg-zinc-900 border border-zinc-850 p-1 rounded-xl flex gap-1 overflow-x-auto scrollbar-none shadow-sm">
+            <button
+              onClick={() => setActiveTab('prep')}
+              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-tight whitespace-nowrap ${
+                activeTab === 'prep' ? 'bg-red-650 text-white' : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              Mise en Place
+            </button>
+            <button
+              onClick={() => setActiveTab('recipes')}
+              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-tight whitespace-nowrap ${
+                activeTab === 'recipes' ? 'bg-red-650 text-white' : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              Recipes & Costing
+            </button>
+            <button
+              onClick={() => setActiveTab('ai-parser')}
+              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-tight whitespace-nowrap ${
+                activeTab === 'ai-parser' ? 'bg-red-650 text-white' : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              AI Extractor
+            </button>
+            <button
+              onClick={() => setActiveTab('wire')}
+              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-tight whitespace-nowrap ${
+                activeTab === 'wire' ? 'bg-red-650 text-white' : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              Pass & 86
+            </button>
+            <button
+              onClick={() => setActiveTab('branding')}
+              className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-black uppercase tracking-tight whitespace-nowrap ${
+                activeTab === 'branding' ? 'bg-red-650 text-white' : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              Brand Center
+            </button>
           </div>
 
           <ErrorBoundary fallbackTitle="Workstation Panel Error">
@@ -2171,6 +2287,185 @@ export default function App() {
                       Commit Handover Message
                     </button>
                   </form>
+                </div>
+
+              </div>
+            )}
+
+            {/* TAB 5: BRAND CENTER - WHITE-LABELING CUSTOMIZER */}
+            {activeTab === 'branding' && (
+              <div id="brand-center-tab-content" className="grid grid-cols-1 md:grid-cols-12 gap-6 animate-fade-in">
+                
+                {/* Brand properties Form */}
+                <div className="md:col-span-7 bg-zinc-900/60 border border-zinc-900 rounded-xl p-5 shadow-md flex flex-col gap-4">
+                  <div>
+                    <h3 className="text-base font-mono font-bold uppercase text-red-500 flex items-center gap-2">
+                      <Settings className="w-5 h-5 text-red-500" /> Proprietary Brand Core
+                    </h3>
+                    <p className="text-xs text-zinc-400 font-mono mt-1">
+                      Configure custom white-label parameters. All properties propagate in real-time across headers, metrics, and print layers.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[10px] font-mono font-bold text-zinc-400 uppercase">Brands/Establishment Name</label>
+                      <input
+                        id="brand-input-name"
+                        type="text"
+                        value={brandName}
+                        onChange={(e) => setBrandName(e.target.value)}
+                        className="bg-zinc-950 border border-zinc-850 rounded-lg p-2.5 text-xs font-mono text-white focus:outline-none focus:border-red-500"
+                        placeholder="e.g. MiseOS"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[10px] font-mono font-bold text-zinc-400 uppercase">Facility/Pass Code</label>
+                      <input
+                        id="brand-input-facility"
+                        type="text"
+                        value={facilityCode}
+                        onChange={(e) => setFacilityCode(e.target.value)}
+                        className="bg-zinc-950 border border-zinc-850 rounded-lg p-2.5 text-xs font-mono text-white focus:outline-none focus:border-red-500"
+                        placeholder="e.g. THE PASS"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[10px] font-mono font-bold text-zinc-400 uppercase">System Subtitle / Philosophy</label>
+                    <input
+                      id="brand-input-subtitle"
+                      type="text"
+                      value={subTitle}
+                      onChange={(e) => setSubTitle(e.target.value)}
+                      className="bg-zinc-950 border border-zinc-850 rounded-lg p-2.5 text-xs font-mono text-white focus:outline-none focus:border-red-500"
+                      placeholder="e.g. BOH Kitchen Operating Console"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[10px] font-mono font-bold text-zinc-400 uppercase">Executive Chef On Duty</label>
+                    <input
+                      id="brand-input-chef"
+                      type="text"
+                      value={chefOnDuty}
+                      onChange={(e) => setChefOnDuty(e.target.value)}
+                      className="bg-zinc-950 border border-zinc-850 rounded-lg p-2.5 text-xs font-mono text-white focus:outline-none focus:border-red-500"
+                      placeholder="e.g. Chef de Cuisine"
+                    />
+                  </div>
+
+                  {/* Themes/Accents presets */}
+                  <div className="border-t border-zinc-800/80 pt-4 mt-2">
+                    <span className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-wider block mb-2.5">
+                      Visual Brand Color Swatches (Focus Accent)
+                    </span>
+                    
+                    <div className="flex flex-wrap gap-2.5">
+                      {[
+                        { name: 'Copper (Authentic)', color: '#C47E5A' },
+                        { name: 'Cobalt (Deep)', color: '#2563EB' },
+                        { name: 'Sage (Michelin)', color: '#527E5C' },
+                        { name: 'Ocean (Teal)', color: '#3F8E96' },
+                        { name: 'Obsidian (Nordic)', color: '#1F2937' },
+                        { name: 'Apricot (Patisserie)', color: '#EA580C' }
+                      ].map((preset) => (
+                        <button
+                          key={preset.color}
+                          id={`swatch-${preset.name.toLowerCase().replace(/\s+/g, '-')}`}
+                          type="button"
+                          onClick={() => setThemeAccent(preset.color)}
+                          className={`px-3 py-1.5 rounded-lg border text-[10px] font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+                            themeAccent.toLowerCase() === preset.color.toLowerCase()
+                              ? 'bg-zinc-950 text-white border-red-500 shadow-sm'
+                              : 'bg-zinc-900 border-zinc-850 text-zinc-450 hover:text-zinc-200 hover:bg-zinc-950/40'
+                          }`}
+                        >
+                          <span
+                            className="w-2.5 h-2.5 rounded-full border border-zinc-950"
+                            style={{ backgroundColor: preset.color }}
+                          ></span>
+                          {preset.name}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center gap-3 mt-4 bg-zinc-950/40 border border-zinc-850 p-3 rounded-lg">
+                      <span className="text-[10px] font-mono font-bold text-zinc-400 uppercase">Or Custom Hex Code:</span>
+                      <div className="flex items-center gap-1.5 bg-zinc-950 p-1 rounded-md border border-zinc-850">
+                        <input
+                          type="color"
+                          value={themeAccent}
+                          onChange={(e) => setThemeAccent(e.target.value)}
+                          className="w-5 h-5 bg-transparent border-0 cursor-pointer rounded overflow-hidden"
+                          title="Choose custom color"
+                        />
+                        <input
+                          id="brand-input-color-hex"
+                          type="text"
+                          value={themeAccent}
+                          onChange={(e) => setThemeAccent(e.target.value)}
+                          className="w-20 bg-transparent text-white text-[10px] font-mono outline-none uppercase font-bold"
+                          placeholder="#C47E5A"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Brand Preview panel mockup screen */}
+                <div className="md:col-span-5 flex flex-col gap-4">
+                  <div className="bg-zinc-900/60 border border-zinc-900 rounded-xl p-5 shadow-md flex flex-col gap-4">
+                    <h4 className="text-xs font-mono font-bold text-zinc-300 uppercase tracking-widest border-b border-zinc-800/80 pb-2">
+                      Live White-Label Preview
+                    </h4>
+
+                    <div className="bg-zinc-950 border border-zinc-850 p-4 rounded-xl flex flex-col gap-3 font-mono text-[11px] relative overflow-hidden select-none">
+                      <div className="pb-2 border-b border-zinc-900 flex justify-between items-start">
+                        <div>
+                          <span className="text-[8px] bg-red-650 text-white font-bold px-1 py-0.2 rounded uppercase">
+                            {facilityCode}
+                          </span>
+                          <h5 className="font-black text-xs text-white uppercase mt-1 tracking-tight">
+                            {brandName}
+                          </h5>
+                          <span className="text-[8px] text-zinc-500 block uppercase">
+                            {subTitle}
+                          </span>
+                        </div>
+                        <span className="text-[8px] text-zinc-400 text-right bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-850">
+                          SPEC #4010a
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col gap-1 bg-zinc-900/50 p-2.5 rounded border border-zinc-900">
+                        <div className="flex justify-between font-bold text-zinc-200">
+                          <span>Ingredients</span>
+                          <span>Trim Loss</span>
+                        </div>
+                        <div className="h-px bg-zinc-850 my-1"></div>
+                        <div className="flex justify-between text-zinc-400 text-[10px]">
+                          <span>Valrhona Chocolate 70%</span>
+                          <span>0.0% EP</span>
+                        </div>
+                        <div className="flex justify-between text-zinc-400 text-[10px]">
+                          <span>Cultured Irish Butter</span>
+                          <span>0.5% EP</span>
+                        </div>
+                      </div>
+
+                      <div className="pt-1.5 flex justify-between items-center text-[9px] text-zinc-500">
+                        <span>On Duty: {chefOnDuty}</span>
+                        <span className="text-red-500 font-bold uppercase">MiseOS Certified</span>
+                      </div>
+                    </div>
+
+                    <div className="text-[10px] text-zinc-500 font-mono leading-relaxed bg-zinc-950/40 p-3 rounded-lg border border-zinc-900 italic">
+                      "System-wide white label custom styling is applied instantly across all view ports, menu item specs sheets, and reporting interfaces. Ready for proprietary kitchen deployment."
+                    </div>
+                  </div>
                 </div>
 
               </div>

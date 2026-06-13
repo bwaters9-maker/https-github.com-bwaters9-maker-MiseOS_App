@@ -14,6 +14,9 @@ interface StationPassHeaderProps {
   completedPrepCount: number;
   activeAlarmsCount: number;
   item86Count: number;
+  brandName?: string;
+  subTitle?: string;
+  facilityCode?: string;
 }
 
 export default function StationPassHeader({
@@ -22,7 +25,10 @@ export default function StationPassHeader({
   totalPrepCount,
   completedPrepCount,
   activeAlarmsCount: _activeAlarmsCount,
-  item86Count
+  item86Count,
+  brandName = 'MiseOS',
+  subTitle = 'Back-of-House Kitchen Coordination System',
+  facilityCode = 'MAIN-PASS-NYC'
 }: StationPassHeaderProps) {
   const stations: (PrepStation | 'All')[] = ['All', 'Sauté', 'Grill', 'Garde Manger', 'Pastry'];
 
@@ -36,11 +42,11 @@ export default function StationPassHeader({
             <ChefHat className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-lg font-mono font-black tracking-tighter text-white flex items-center gap-1.5 uppercase">
-              MiseOS <span className="text-red-500 font-bold text-xs bg-red-950 px-1.5 py-0.5 border border-red-900 rounded">THE PASS</span>
+            <h1 className="text-lg font-mono font-black tracking-tighter text-zinc-100 flex items-center gap-1.5 uppercase">
+              {brandName} <span className="text-red-500 font-bold text-xs bg-zinc-950 px-1.5 py-0.5 border border-red-500 rounded">{facilityCode}</span>
             </h1>
             <p className="text-[10px] text-zinc-400 font-mono">
-              Back-of-House Kitchen Coordination System
+              {subTitle}
             </p>
           </div>
         </div>
