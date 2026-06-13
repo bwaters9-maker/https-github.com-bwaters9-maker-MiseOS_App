@@ -1,34 +1,20 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
+/* Core Architectural System Design Configuration */
 :root {
-  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-
-  --text-title: 28px;
-  --text-section: 20px;
-  --text-body: 16px;
-  --text-small: 14px;
-
-  --weight-light: 300;
-  --weight-regular: 400;
-  --weight-medium: 500;
-
-  --color-bg: #FAFAFA;          /* porcelain */
-  --color-surface: #FFFFFF;     /* plate */
-  --color-line: #E6E6E6;        /* stainless */
-  --color-text: #1C1C1C;        /* charcoal */
-  --color-accent: #C47E5A;      /* muted copper */
-  --color-focus: #0F1A2A;       /* deep navy */
+  --color-bg: #FAFAFA;
+  --color-surface: #FFFFFF;
+  --color-line: #E6E6E6;
+  --color-text: #1C1C1C;
+  --color-accent: #C47E5A;
+  --color-focus: #0F1A2A;
 }
 
 @theme {
-  --font-sans: var(--font-primary);
-  
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
   /* Pure White-Label Utility Design Tokens */
   --color-brand-bg: var(--color-bg);
   --color-brand-surface: var(--color-surface);
@@ -38,43 +24,76 @@
   --color-brand-focus: var(--color-focus);
   --color-brand-muted: #888888;
   --color-brand-faded: #CCCCCC;
-  
+
   /* Fallbacks & Overrides for Backward Compatibility and Remapped Classes */
-  --color-zinc-950: var(--color-bg);          /* bg-zinc-950 maps to porcelain */
-  --color-zinc-900: var(--color-surface);     /* bg-zinc-900 maps to plate */
+  --color-zinc-950: var(--color-bg);
+  --color-zinc-900: var(--color-surface);
   --color-zinc-905: var(--color-surface);
   --color-zinc-955: var(--color-bg);
-  --color-zinc-850: var(--color-line);        /* border-zinc-850 maps to stainless */
+  --color-zinc-850: var(--color-line);
   --color-zinc-805: var(--color-line);
-  --color-zinc-800: var(--color-line);        /* border-zinc-800 maps to stainless */
+  --color-zinc-800: var(--color-line);
   --color-zinc-750: var(--color-line);
   --color-zinc-700: #CCCCCC;
   --color-zinc-600: #888888;
   --color-zinc-500: #666666;
-  --color-zinc-400: #444444;                  /* muted charcoal */
+  --color-zinc-400: #444444;
   --color-zinc-350: #222222;
-  --color-zinc-300: var(--color-text);        /* text-zinc-300 maps to charcoal */
+  --color-zinc-300: var(--color-text);
   --color-zinc-200: var(--color-text);
-  --color-zinc-100: var(--color-text);        /* text-zinc-100 maps to charcoal */
-  
-  --color-emerald-600: var(--color-accent);    /* accents map to copper */
+  --color-zinc-100: var(--color-text);
+
+  --color-emerald-600: var(--color-accent);
+  --color-emerald-505: var(--color-accent);
   --color-emerald-500: #D8926D;
   --color-emerald-700: #B06C47;
-  
+
   --color-red-650: var(--color-accent);
   --color-red-600: var(--color-accent);
   --color-red-500: #D8926D;
   --color-red-700: #B06C47;
 }
 
-body {
-  font-family: var(--font-primary);
-  background: var(--color-bg);
-  color: var(--color-text);
-  margin: 0;
-  padding: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  body {
+    @apply bg-[#FAFAFA] text-[#1C1C1C] font-mono tracking-tight;
+  }
+
+  /* Structural Card Layout Wrappers */
+  .spec-card {
+    @apply bg-white border border-[#E6E6E6] rounded-2xl p-5 shadow-sm transition-all duration-200;
+  }
+
+  /* Ledger Table Architecture */
+  .spec-table-header {
+    @apply bg-[#FAFAFA] text-zinc-400 uppercase tracking-widest text-[9px] border-b border-[#E6E6E6] font-bold;
+  }
+
+  /* Control Panel Toggle Triggers */
+  .spec-btn-active {
+    @apply bg-white border border-[#E6E6E6] text-[#C47E5A] font-black shadow-sm rounded-xl transition-all;
+  }
+
+  /* Specialized Input Elements */
+  .spec-input {
+    @apply bg-[#FAFAFA] border border-[#E6E6E6] p-2.5 rounded-xl text-xs text-[#1C1C1C] placeholder-zinc-400 focus:outline-none focus:border-zinc-400 font-mono transition-colors;
+  }
+
+  /* Custom Code Sandbox Section Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #FAFAFA;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #E6E6E6;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #D4D4D8;
+  }
 }
 
 /* Custom fade-in and utility styles */
